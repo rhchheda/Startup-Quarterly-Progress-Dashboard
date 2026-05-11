@@ -2,1064 +2,608 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CTIE Quarterly Progress · Funnel Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CTIE Quarterly Progress Report · KLE-CTIE</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy-950: #050d1c;
-    --navy-900: #0a1628;
-    --navy-800: #0f1f3a;
-    --navy-700: #16294d;
-    --navy-600: #1f3461;
-    --navy-500: #2d4577;
-    --gold:     #d4a017;
-    --gold-light: #f0c649;
-    --gold-bright: #ffd454;
-    --text:     #e8edf5;
-    --text-muted: #8a9bb8;
-    --text-dim: #5d6d8a;
-    --card:     rgba(15, 31, 58, 0.6);
-    --card-hover: rgba(22, 41, 77, 0.8);
-    --border:   rgba(212, 160, 23, 0.15);
-    --border-bright: rgba(212, 160, 23, 0.4);
-    --green:    #34d399;
-    --amber:    #fbbf24;
-    --red:      #f87171;
-    --blue:     #60a5fa;
-    --purple:   #a78bfa;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+:root{
+  --navy:#0d1b3e;--navy-mid:#1a2f5e;
+  --gold:#c9a84c;--gold-l:#e8c97a;--gold-pale:#f5e9c8;
+  --cream:#faf8f3;--soft:#f0ece0;--white:#ffffff;
+  --text:#0d1b3e;--muted:#6b7a99;--border:rgba(13,27,62,0.10);
+  --shadow:0 8px 32px rgba(13,27,62,0.10);
+  --green:#1b7a3e;--red:#c0392b;--blue:#2471a3;
+  --amber:#e67e22;--purple:#6c3483;
+  --footer-h:36px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--soft);color:var(--text);padding-bottom:calc(var(--footer-h)+1rem);}
 
-  html { scroll-behavior: smooth; }
+/* FOOTER */
+.sticky-footer{
+  position:fixed;bottom:0;left:0;right:0;height:var(--footer-h);
+  background:var(--navy);border-top:1px solid rgba(201,168,76,0.2);
+  display:flex;align-items:center;justify-content:center;z-index:300;
+}
+.sticky-footer span{font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.06em;}
+.sticky-footer b{color:var(--gold);font-weight:400;font-style:italic;}
 
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--navy-950);
-    background-image:
-      radial-gradient(ellipse at top left, rgba(212,160,23,0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at bottom right, rgba(96,165,250,0.06) 0%, transparent 50%),
-      linear-gradient(180deg, var(--navy-950) 0%, var(--navy-900) 100%);
-    background-attachment: fixed;
-    color: var(--text);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    min-height: 100vh;
-    padding-bottom: 64px; /* room for sticky footer */
-  }
+/* HEADER */
+.header{background:var(--navy);padding:2.5rem 2rem 2rem;position:relative;overflow:hidden;}
+.header::before{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(201,168,76,0.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(201,168,76,0.05) 1px,transparent 1px);
+  background-size:50px 50px;
+}
+.header-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1;
+  display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;}
+.header-left .eyebrow{font-size:11px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;}
+.header-title{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,5vw,48px);font-weight:600;color:var(--white);line-height:1.1;margin-bottom:0.3rem;}
+.header-title span{color:var(--gold);font-style:italic;}
+.header-sub{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:1.25rem;}
+.gold-bar{height:3px;background:linear-gradient(to right,var(--gold),var(--gold-l),var(--gold));border-radius:2px;max-width:280px;}
+.header-right{text-align:right;}
+.header-ts{font-size:11px;color:rgba(255,255,255,0.3);font-family:'JetBrains Mono',monospace;}
+.header-ts span{color:var(--gold);}
+.live-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(27,122,62,0.2);border:1px solid rgba(27,122,62,0.4);border-radius:20px;padding:4px 10px;margin-top:6px;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#2ecc71;}
+.live-text{font-size:10px;color:#2ecc71;font-weight:500;letter-spacing:0.06em;}
 
-  /* ===== Header ===== */
-  .header {
-    background: linear-gradient(135deg, rgba(10,22,40,0.95) 0%, rgba(15,31,58,0.95) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: 24px 40px;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-  }
-  .header-inner {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  .header h1 {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-    background: linear-gradient(135deg, #fff 0%, var(--gold-light) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .header .subtitle {
-    color: var(--gold);
-    font-size: 12px;
-    margin-top: 4px;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-  }
-  .header-meta {
-    text-align: right;
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-  .header-meta .gen { color: var(--gold-light); font-weight: 600; }
-  .live-dot {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-    margin-right: 6px;
-    box-shadow: 0 0 8px var(--green);
-    animation: pulseDot 2s ease-in-out infinite;
-  }
-  @keyframes pulseDot {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(0.85); }
-  }
-  .refresh-btn {
-    background: rgba(212,160,23,0.1);
-    border: 1px solid var(--border-bright);
-    color: var(--gold-light);
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    margin-left: 12px;
-    transition: all 0.2s;
-  }
-  .refresh-btn:hover {
-    background: rgba(212,160,23,0.2);
-    transform: translateY(-1px);
-  }
-  .refresh-btn:active { transform: translateY(0); }
-  .refresh-btn.spinning::before {
-    content: '⟳';
-    display: inline-block;
-    margin-right: 4px;
-    animation: spin 1s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+/* CONTAINER */
+.container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem;}
 
-  /* ===== Container ===== */
-  .container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 28px 40px 40px;
-  }
+/* NAV TABS */
+.nav-tabs{display:flex;gap:8px;margin-bottom:2rem;flex-wrap:wrap;}
+.nav-tab{font-size:12px;font-weight:500;padding:7px 16px;border-radius:20px;cursor:pointer;
+  border:1px solid var(--border);background:var(--white);color:var(--muted);transition:all 0.2s;}
+.nav-tab.active{background:var(--navy);color:var(--gold);border-color:var(--navy);}
+.nav-tab:hover:not(.active){border-color:var(--gold);color:var(--navy);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
 
-  /* ===== Loading state ===== */
-  .loading {
-    text-align: center;
-    padding: 80px 20px;
-    color: var(--text-muted);
-  }
-  .loading-spinner {
-    width: 48px;
-    height: 48px;
-    border: 3px solid rgba(212,160,23,0.2);
-    border-top-color: var(--gold);
-    border-radius: 50%;
-    margin: 0 auto 20px;
-    animation: spin 1s linear infinite;
-  }
-  .error {
-    background: rgba(248,113,113,0.1);
-    border: 1px solid rgba(248,113,113,0.3);
-    color: #fecaca;
-    padding: 20px;
-    border-radius: 8px;
-    margin: 20px 0;
-  }
+/* SECTION */
+.sec-label{display:flex;align-items:center;gap:10px;margin-bottom:0.75rem;}
+.sec-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);}
+.sec-line{flex:1;height:1px;background:rgba(201,168,76,0.25);max-width:50px;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,3vw,30px);font-weight:600;color:var(--navy);margin-bottom:0.4rem;}
+.sec-title em{color:var(--gold);font-style:italic;}
+.sec-sub{font-size:13px;color:var(--muted);margin-bottom:1.5rem;line-height:1.7;max-width:700px;}
+section{margin-bottom:3rem;}
 
-  /* ===== Validation banner ===== */
-  .validation {
-    background: linear-gradient(90deg, rgba(251,191,36,0.1) 0%, rgba(251,191,36,0.02) 100%);
-    border-left: 3px solid var(--amber);
-    padding: 14px 20px;
-    border-radius: 8px;
-    margin-bottom: 24px;
-    font-size: 13px;
-    color: #fde68a;
-    animation: slideInDown 0.5s ease-out;
-  }
-  .validation strong { color: var(--gold-bright); }
-  .validation-list {
-    margin-top: 8px;
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .validation-list li {
-    background: rgba(251,191,36,0.12);
-    border: 1px solid rgba(251,191,36,0.2);
-    padding: 3px 10px;
-    border-radius: 4px;
-    font-size: 12px;
-    color: #fde68a;
-  }
-  @keyframes slideInDown {
-    from { opacity: 0; transform: translateY(-12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+/* KPI CARDS */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin-bottom:2rem;}
+.kpi-card{background:var(--white);border-radius:12px;padding:1rem;border:1px solid var(--border);box-shadow:var(--shadow);text-align:center;transition:transform 0.2s;}
+.kpi-card:hover{transform:translateY(-3px);}
+.kpi-label{font-size:10px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.kpi-value{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;line-height:1;}
+.kpi-sub{font-size:10px;color:var(--muted);margin-top:3px;}
 
-  /* ===== KPI Row ===== */
-  .kpi-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    margin-bottom: 28px;
-  }
-  .kpi {
-    background: var(--card);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 22px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s, box-shadow 0.3s;
-    animation: kpiFadeUp 0.6s ease-out backwards;
-  }
-  .kpi:nth-child(1) { animation-delay: 0.05s; }
-  .kpi:nth-child(2) { animation-delay: 0.12s; }
-  .kpi:nth-child(3) { animation-delay: 0.19s; }
-  .kpi:nth-child(4) { animation-delay: 0.26s; }
-  .kpi:nth-child(5) { animation-delay: 0.33s; }
-  @keyframes kpiFadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .kpi:hover {
-    transform: translateY(-4px);
-    border-color: var(--border-bright);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.3), 0 0 0 1px rgba(212,160,23,0.1);
-  }
-  .kpi::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: var(--gold);
-  }
-  .kpi.accent-blue::before { background: var(--blue); }
-  .kpi.accent-green::before { background: var(--green); }
-  .kpi.accent-amber::before { background: var(--amber); }
-  .kpi.accent-red::before { background: var(--red); }
-  /* shimmer overlay on hover */
-  .kpi::after {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 60%; height: 100%;
-    background: linear-gradient(90deg, transparent 0%, rgba(212,160,23,0.08) 50%, transparent 100%);
-    transition: left 0.7s;
-    pointer-events: none;
-  }
-  .kpi:hover::after { left: 150%; }
-  .kpi-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--text-muted);
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
-  .kpi-value {
-    font-size: 32px;
-    font-weight: 800;
-    color: #fff;
-    line-height: 1;
-    letter-spacing: -1px;
-  }
-  .kpi-sub {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 8px;
-  }
+/* FUNNEL */
+.funnel-wrap{display:flex;flex-direction:column;gap:6px;}
+.funnel-row{display:grid;grid-template-columns:180px 1fr 52px 52px;gap:12px;align-items:center;padding:9px 14px;background:var(--white);border-radius:10px;border:1px solid var(--border);}
+.funnel-stage{font-size:11px;font-weight:600;color:var(--white);padding:4px 10px;border-radius:20px;text-align:center;}
+.funnel-bar-wrap{height:9px;background:rgba(13,27,62,0.07);border-radius:6px;overflow:hidden;}
+.funnel-bar{height:100%;border-radius:6px;width:0;background:linear-gradient(to right,var(--gold),var(--gold-l));transition:width 1.2s cubic-bezier(0.25,0.46,0.45,0.94);}
+.funnel-count{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy);text-align:center;}
+.funnel-pct{font-size:11px;color:var(--muted);text-align:center;}
 
-  /* ===== Section ===== */
-  .section {
-    background: var(--card);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 20px;
-    animation: kpiFadeUp 0.6s 0.4s ease-out backwards;
-  }
-  .section-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 4px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .section-title::before {
-    content: '';
-    width: 3px;
-    height: 14px;
-    background: linear-gradient(180deg, var(--gold-bright), var(--gold));
-    border-radius: 2px;
-    box-shadow: 0 0 8px rgba(212,160,23,0.4);
-  }
-  .section-subtitle {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-bottom: 20px;
-  }
+/* CHARTS */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
+.chart-card{background:var(--white);border-radius:14px;padding:1.5rem;border:1px solid var(--border);box-shadow:var(--shadow);}
+.chart-title{font-size:12px;font-weight:600;color:var(--navy);margin-bottom:1.1rem;letter-spacing:0.05em;text-transform:uppercase;}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+.bar-label{font-size:12px;color:var(--text);min-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-track{flex:1;height:8px;background:rgba(13,27,62,0.07);border-radius:6px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:6px;width:0;transition:width 1.2s cubic-bezier(0.25,0.46,0.45,0.94);}
+.bar-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);min-width:22px;text-align:right;}
 
-  /* ===== Funnel ===== */
-  .funnel {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    align-items: center;
-    padding: 8px 0;
-  }
-  .funnel-stage {
-    width: 100%;
-    max-width: 760px;
-    background: linear-gradient(135deg, var(--navy-700) 0%, var(--navy-600) 100%);
-    color: #fff;
-    padding: 16px 24px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.06);
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    gap: 16px;
-    align-items: center;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    position: relative;
-    overflow: hidden;
-    animation: funnelDrop 0.5s ease-out backwards;
-  }
-  .funnel-stage:nth-child(1) { animation-delay: 0.1s; }
-  .funnel-stage:nth-child(2) { animation-delay: 0.2s; }
-  .funnel-stage:nth-child(3) { animation-delay: 0.3s; }
-  .funnel-stage:nth-child(4) { animation-delay: 0.4s; }
-  .funnel-stage:nth-child(5) { animation-delay: 0.5s; }
-  .funnel-stage:nth-child(6) { animation-delay: 0.6s; }
-  @keyframes funnelDrop {
-    from { opacity: 0; transform: translateY(-8px) scale(0.96); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
-  }
-  .funnel-stage:hover {
-    transform: translateX(6px) scale(1.01);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-  }
-  .funnel-stage.s2 { width: 92%; }
-  .funnel-stage.s3 { width: 80%; }
-  .funnel-stage.s4 { width: 72%; }
-  .funnel-stage.s5 { width: 64%; }
-  .funnel-stage.s6 {
-    width: 52%;
-    background: linear-gradient(135deg, #b8860b 0%, var(--gold) 100%);
-    border-color: var(--gold-light);
-    box-shadow: 0 4px 16px rgba(212,160,23,0.3);
-  }
-  /* shimmer */
-  .funnel-stage::after {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 50%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-    animation: funnelShimmer 4s ease-in-out infinite;
-  }
-  @keyframes funnelShimmer {
-    0%, 100% { left: -100%; }
-    50% { left: 150%; }
-  }
-  .funnel-label { font-weight: 600; font-size: 14px; }
-  .funnel-desc { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 2px; }
-  .funnel-count { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
-  .funnel-conv {
-    font-size: 11px;
-    background: rgba(255,255,255,0.15);
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-weight: 600;
-    white-space: nowrap;
-    backdrop-filter: blur(4px);
-  }
+/* TRL PROGRESS STRIP */
+.trl-strip{display:flex;gap:4px;flex-wrap:wrap;margin-top:0.75rem;}
+.trl-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;}
 
-  /* ===== Tabs ===== */
-  .tabs {
-    display: flex;
-    gap: 4px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 24px;
-    overflow-x: auto;
-    scrollbar-width: thin;
-  }
-  .tab {
-    padding: 12px 20px;
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-muted);
-    font-family: inherit;
-    white-space: nowrap;
-    transition: color 0.2s, border-color 0.2s;
-    position: relative;
-  }
-  .tab:hover { color: var(--text); }
-  .tab.active {
-    color: var(--gold-light);
-    border-bottom-color: var(--gold);
-  }
-  .tab-panel { display: none; }
-  .tab-panel.active {
-    display: block;
-    animation: tabFade 0.4s ease-out;
-  }
-  @keyframes tabFade {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+/* STARTUP TABLE */
+.table-wrap{background:var(--white);border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);}
+.table-toolbar{padding:0.9rem 1.25rem;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.search-input{flex:1;min-width:180px;border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;font-family:'Outfit',sans-serif;outline:none;color:var(--text);background:var(--cream);}
+.search-input:focus{border-color:var(--gold);}
+.filter-select{font-size:12px;border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-family:'Outfit',sans-serif;outline:none;color:var(--text);background:var(--cream);cursor:pointer;}
+.table-count{font-size:12px;color:var(--muted);white-space:nowrap;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+thead th{background:var(--navy);color:rgba(255,255,255,0.65);font-size:10px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;padding:9px 12px;text-align:left;}
+tbody tr{border-bottom:1px solid var(--border);transition:background 0.15s;}
+tbody tr:hover{background:var(--cream);}
+tbody tr:last-child{border-bottom:none;}
+td{padding:8px 12px;vertical-align:middle;}
+.td-name{font-weight:500;color:var(--navy);max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.td-founder{font-size:11px;color:var(--muted);max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pill{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;white-space:nowrap;}
+.p-builder{background:#e8f0fe;color:var(--blue);}
+.p-scaler{background:#e8f5e9;color:var(--green);}
+.p-explorer{background:var(--gold-pale);color:#7d5a00;}
+.p-product{background:#f3e5f5;color:var(--purple);}
+.p-hybrid{background:#e3f2fd;color:#1565c0;}
+.p-service{background:#fff8e1;color:#e65100;}
+.trl-prog{font-size:11px;font-family:'JetBrains Mono',monospace;white-space:nowrap;}
+.trl-up{color:var(--green);font-weight:600;}
+.trl-same{color:var(--muted);}
+.trl-down{color:var(--red);font-weight:600;}
+.ms-bar{width:60px;height:6px;background:rgba(13,27,62,0.08);border-radius:3px;display:inline-block;vertical-align:middle;overflow:hidden;}
+.ms-fill{height:100%;background:var(--gold);border-radius:3px;}
+.conf-high{color:var(--green);font-size:11px;font-weight:600;}
+.conf-med{color:var(--amber);font-size:11px;font-weight:500;}
+.conf-low{color:var(--red);font-size:11px;font-weight:600;}
 
-  /* ===== Grid ===== */
-  .grid-2 {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-    gap: 24px;
-    margin-bottom: 24px;
-  }
+/* OUTREACH TABLE */
+.outreach-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin-bottom:1.5rem;}
+.out-kpi{background:var(--white);border-radius:12px;padding:1rem;border:1px solid var(--border);text-align:center;}
+.out-kpi-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;line-height:1;}
+.out-kpi-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px;}
+.status-pill{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;white-space:nowrap;}
+.s-will{background:#e8f5e9;color:var(--green);}
+.s-no{background:#fce8e8;color:var(--red);}
+.s-busy{background:#fff8e1;color:#e65100;}
+.s-cb{background:#e8f0fe;color:var(--blue);}
+.s-nr{background:#f5f5f5;color:var(--muted);}
+.s-closed{background:#ffebee;color:#b71c1c;}
+.s-other{background:var(--gold-pale);color:#7d5a00;}
+.type-pill{font-size:10px;padding:2px 7px;border-radius:20px;background:rgba(13,27,62,0.07);color:var(--muted);}
 
-  /* ===== Bar list ===== */
-  .bar-list { display: flex; flex-direction: column; gap: 10px; }
-  .bar-item {
-    display: grid;
-    grid-template-columns: 200px 1fr 50px;
-    gap: 12px;
-    align-items: center;
-    font-size: 13px;
-  }
-  .bar-name { color: var(--text); font-weight: 500; }
-  .bar-track {
-    background: rgba(255,255,255,0.05);
-    height: 22px;
-    border-radius: 4px;
-    overflow: hidden;
-    position: relative;
-    border: 1px solid rgba(255,255,255,0.04);
-  }
-  .bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--navy-500) 0%, var(--blue) 100%);
-    border-radius: 3px;
-    width: 0;
-    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-  }
-  .bar-fill::after {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-    animation: barShimmer 3s ease-in-out infinite;
-  }
-  @keyframes barShimmer {
-    0% { left: -100%; }
-    100% { left: 200%; }
-  }
-  .bar-fill.gold { background: linear-gradient(90deg, var(--gold) 0%, var(--gold-bright) 100%); }
-  .bar-fill.red { background: linear-gradient(90deg, #b91c1c 0%, var(--red) 100%); }
-  .bar-fill.green { background: linear-gradient(90deg, #047857 0%, var(--green) 100%); }
-  .bar-count {
-    text-align: right;
-    font-weight: 700;
-    color: var(--gold-light);
-    font-size: 13px;
-  }
+/* INSIGHTS */
+.insights-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;}
+.insight-card{background:var(--white);border-radius:12px;padding:1.4rem;border:1px solid var(--border);}
+.insight-card.dark{background:var(--navy);}
+.insight-icon{font-size:24px;margin-bottom:0.75rem;}
+.insight-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:0.4rem;}
+.insight-card.dark .insight-title{color:var(--white);}
+.insight-text{font-size:13px;color:var(--muted);line-height:1.65;}
+.insight-card.dark .insight-text{color:rgba(255,255,255,0.5);}
 
-  /* ===== Donut ===== */
-  .donut-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 24px;
-    align-items: center;
-  }
-  .donut-cell { text-align: center; }
-  .donut-cell svg { display: block; margin: 0 auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3)); }
-  .donut-cell svg circle.seg { transition: stroke-dasharray 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
-  .donut-legend {
-    margin-top: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    font-size: 12px;
-  }
-  .donut-legend-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--text-muted);
-  }
-  .donut-legend-item strong { color: var(--text); }
-  .donut-legend-swatch {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 2px;
-    margin-right: 8px;
-    vertical-align: middle;
-  }
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.vis{opacity:1;transform:translateY(0);}
 
-  /* ===== TRL stack ===== */
-  .trl-stack {
-    display: flex;
-    height: 40px;
-    border-radius: 8px;
-    overflow: hidden;
-    margin: 16px 0 12px;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
-  }
-  .trl-seg {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 700;
-    font-size: 13px;
-    transition: flex 1s cubic-bezier(0.4, 0, 0.2, 1);
-    min-width: 0;
-  }
-  .trl-legend {
-    display: flex;
-    justify-content: space-around;
-    font-size: 12px;
-    margin-top: 8px;
-    color: var(--text-muted);
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .trl-legend strong { color: var(--text); }
-
-  /* ===== Table ===== */
-  .table-wrap {
-    overflow-x: auto;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    max-height: 480px;
-    overflow-y: auto;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  th {
-    background: var(--navy-800);
-    color: var(--gold-light);
-    text-align: left;
-    padding: 12px 16px;
-    font-weight: 600;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    position: sticky;
-    top: 0;
-    border-bottom: 1px solid var(--border);
-  }
-  td {
-    padding: 10px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    color: var(--text);
-  }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: rgba(212,160,23,0.04); }
-  .badge {
-    display: inline-block;
-    padding: 2px 10px;
-    border-radius: 12px;
-    font-size: 11px;
-    font-weight: 600;
-  }
-  .badge-warn { background: rgba(251,191,36,0.15); color: var(--amber); border: 1px solid rgba(251,191,36,0.3); }
-  .badge-info { background: rgba(96,165,250,0.15); color: var(--blue); border: 1px solid rgba(96,165,250,0.3); }
-
-  /* ===== Sticky Footer ===== */
-  .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(180deg, rgba(5,13,28,0.6) 0%, rgba(5,13,28,0.95) 60%, var(--navy-950) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid var(--border);
-    padding: 14px 20px;
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 12px;
-    z-index: 40;
-    letter-spacing: 0.2px;
-  }
-  .footer-inner {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .footer .sep { color: var(--text-dim); margin: 0 6px; }
-  .footer .accent { color: var(--gold-light); font-weight: 600; }
-
-  /* throbbing heart */
-  .heart {
-    display: inline-block;
-    color: #ff4d6d;
-    font-size: 14px;
-    animation: throb 1.2s ease-in-out infinite;
-    text-shadow: 0 0 8px rgba(255,77,109,0.6);
-    transform-origin: center;
-  }
-  @keyframes throb {
-    0%, 100% { transform: scale(1); }
-    14%      { transform: scale(1.3); }
-    28%      { transform: scale(1); }
-    42%      { transform: scale(1.25); }
-    70%      { transform: scale(1); }
-  }
-
-  /* count-up wrapper to allow synced animation */
-  .count-up { display: inline-block; }
-
-  /* responsive */
-  @media (max-width: 768px) {
-    .header, .container { padding-left: 20px; padding-right: 20px; }
-    .header { padding-top: 16px; padding-bottom: 16px; }
-    .header h1 { font-size: 18px; }
-    .header-meta { text-align: left; }
-    .bar-item { grid-template-columns: 130px 1fr 40px; font-size: 12px; }
-    .funnel-stage { grid-template-columns: 1fr auto; padding: 14px 18px; }
-    .funnel-conv { grid-column: 1 / -1; justify-self: start; }
-    .footer { font-size: 11px; padding: 12px 16px; }
-    .footer .sep { display: none; }
-    .footer-inner { gap: 4px; }
-  }
-
-  @media print {
-    .footer, .header { position: static; }
-    .tab-panel { display: block !important; }
-    .tabs { display: none; }
-  }
+@media(max-width:640px){
+  .charts-grid{grid-template-columns:1fr;}
+  .funnel-row{grid-template-columns:120px 1fr 40px 40px;}
+  .header-inner{flex-direction:column;align-items:flex-start;}
+}
 </style>
 </head>
 <body>
 
-<header class="header">
+<div class="sticky-footer">
+  <span>Made with ❤ ~rhc &nbsp;<b>·</b>&nbsp; EE Lab, KLE-CTIE &nbsp;<b>·</b>&nbsp; CTIE Startup Progress Report &nbsp;<b>·</b>&nbsp; Q4 2025-26</span>
+</div>
+
+<!-- HEADER -->
+<div class="header">
   <div class="header-inner">
-    <div>
-      <h1>CTIE Quarterly Progress · Funnel Dashboard</h1>
-      <div class="subtitle">Startup Quarterly Progress &amp; Support · <span id="periodLabel">2025-26</span></div>
+    <div class="header-left">
+      <div class="eyebrow">KLE-CTIE · Startup Incubation · Quarterly Review</div>
+      <div class="header-title">CTIE <span>Startup Progress</span><br>Funnel Report</div>
+      <div class="header-sub">66 Startup Responses · 60 Outreach Calls · Quarter 2025-26</div>
+      <div class="gold-bar"></div>
     </div>
-    <div class="header-meta">
-      <div><span class="live-dot"></span><span id="liveStatus">Live</span></div>
-      <div class="gen" id="genTime">Loading…</div>
-      <button class="refresh-btn" id="refreshBtn" title="Force refresh from sheet">Refresh</button>
-    </div>
-  </div>
-</header>
-
-<main class="container">
-
-  <div id="loadingState" class="loading">
-    <div class="loading-spinner"></div>
-    <div>Fetching live data from Google Sheets…</div>
-  </div>
-
-  <div id="errorState" class="error" style="display:none"></div>
-
-  <div id="dashboard" style="display:none">
-    <div id="validationBanner"></div>
-    <div class="kpi-row" id="kpiRow"></div>
-
-    <div class="section">
-      <div class="section-title">Conversion Funnel</div>
-      <div class="section-subtitle">From invitation to revenue generation — each stage shows count and conversion vs. previous stage</div>
-      <div class="funnel" id="funnel"></div>
-    </div>
-
-    <div class="section">
-      <div class="tabs" id="tabs">
-        <button class="tab active" data-tab="profile">Startup Profile</button>
-        <button class="tab" data-tab="execution">Execution &amp; Progress</button>
-        <button class="tab" data-tab="blockers">Blockers &amp; Constraints</button>
-        <button class="tab" data-tab="gaps">Gaps &amp; Data Quality</button>
-      </div>
-
-      <div class="tab-panel active" id="tab-profile">
-        <div class="grid-2">
-          <div>
-            <div class="section-title" style="margin-bottom:16px">Domain Mix</div>
-            <div class="bar-list" id="domainList"></div>
-          </div>
-          <div>
-            <div class="section-title" style="margin-bottom:16px">Stage Mix</div>
-            <div class="bar-list" id="stageList"></div>
-          </div>
-        </div>
-        <div style="margin-top:24px">
-          <div class="section-title" style="margin-bottom:16px">Confidence for Next Quarter</div>
-          <div class="donut-row" id="confidenceDonut"></div>
-        </div>
-      </div>
-
-      <div class="tab-panel" id="tab-execution">
-        <div class="grid-2">
-          <div>
-            <div class="section-title" style="margin-bottom:8px">TRL / SRL Movement</div>
-            <div class="section-subtitle">Change in technology/solution readiness from quarter start to now</div>
-            <div class="trl-stack" id="trlStack"></div>
-            <div class="trl-legend" id="trlLegend"></div>
-          </div>
-          <div>
-            <div class="section-title" style="margin-bottom:16px">Spend Alignment to Plan</div>
-            <div class="bar-list" id="spendList"></div>
-          </div>
-        </div>
-        <div style="margin-top:24px">
-          <div class="section-title" style="margin-bottom:16px">Customer Engagement Activities</div>
-          <div class="bar-list" id="activitiesList"></div>
-        </div>
-      </div>
-
-      <div class="tab-panel" id="tab-blockers">
-        <div class="grid-2">
-          <div>
-            <div class="section-title" style="margin-bottom:16px">Top Blockers (Q10)</div>
-            <div class="bar-list" id="blockersList"></div>
-          </div>
-          <div>
-            <div class="section-title" style="margin-bottom:16px">Top Constraints (Q32)</div>
-            <div class="bar-list" id="constraintsList"></div>
-          </div>
-        </div>
-        <div style="margin-top:24px">
-          <div class="section-title" style="margin-bottom:16px">What Slowed Execution Most (Q19)</div>
-          <div class="bar-list" id="slowedList"></div>
-        </div>
-      </div>
-
-      <div class="tab-panel" id="tab-gaps">
-        <div class="section-title" style="margin-bottom:6px">Non-Responders</div>
-        <div class="section-subtitle" id="nonRespCount"></div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th style="width:48px">#</th><th>Startup Name</th></tr></thead>
-            <tbody id="nonRespTable"></tbody>
-          </table>
-        </div>
-
-        <div class="section-title" style="margin-bottom:6px; margin-top:28px">Responses Not in Master List</div>
-        <div class="section-subtitle">Submissions received from startups not on the original invitation list — verify and add to master if valid</div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th style="width:48px">#</th><th>Startup Name</th><th style="width:140px">Status</th></tr></thead>
-            <tbody id="unmatchedTable"></tbody>
-          </table>
-        </div>
-      </div>
+    <div class="header-right">
+      <div class="header-ts">Generated<br><span id="genTime">—</span></div>
+      <div class="live-badge"><div class="live-dot"></div><span class="live-text">2025-26 Q4</span></div>
     </div>
   </div>
-</main>
+</div>
 
-<footer class="footer">
-  <div class="footer-inner">
-    <span>Made with <span class="heart">❤</span> ~<span class="accent">rhc</span></span>
-    <span class="sep">·</span>
-    <span>EE Lab, KLE-CTIE</span>
-    <span class="sep">·</span>
-    <span>CTIE Quarterly Progress &amp; Support Questionnaire for 2025-26</span>
+<div class="container">
+
+  <!-- NAV TABS -->
+  <div class="nav-tabs" style="margin-top:1.5rem;">
+    <div class="nav-tab active" onclick="switchTab('overview')">Overview</div>
+    <div class="nav-tab" onclick="switchTab('progress')">Progress & TRL</div>
+    <div class="nav-tab" onclick="switchTab('blockers')">Blockers & Constraints</div>
+    <div class="nav-tab" onclick="switchTab('outreach')">Outreach Log</div>
+    <div class="nav-tab" onclick="switchTab('roster')">Startup Roster</div>
+    <div class="nav-tab" onclick="switchTab('insights')">Insights</div>
   </div>
-</footer>
+
+  <!-- TAB 1: OVERVIEW -->
+  <div class="tab-content active" id="tab-overview">
+
+    <!-- KPI CARDS -->
+    <div class="kpi-grid reveal">
+      <div class="kpi-card"><div class="kpi-label">Total Responses</div><div class="kpi-value" style="color:var(--navy)">66</div><div class="kpi-sub">Startups</div></div>
+      <div class="kpi-card"><div class="kpi-label">Outreach Calls</div><div class="kpi-value" style="color:var(--blue)">60</div><div class="kpi-sub">Virtual + Physical</div></div>
+      <div class="kpi-card"><div class="kpi-label">Submitted</div><div class="kpi-value" style="color:var(--green)">44</div><div class="kpi-sub">Form responses</div></div>
+      <div class="kpi-card"><div class="kpi-label">TRL Progressed</div><div class="kpi-value" style="color:var(--green)">39</div><div class="kpi-sub">59% of cohort</div></div>
+      <div class="kpi-card"><div class="kpi-label">Avg Milestones</div><div class="kpi-value" style="color:var(--amber)">47.7%</div><div class="kpi-sub">Completed</div></div>
+      <div class="kpi-card"><div class="kpi-label">Revenue ₹</div><div class="kpi-value" style="color:var(--green)">16.7L</div><div class="kpi-sub">4 startups</div></div>
+      <div class="kpi-card"><div class="kpi-label">Active Pilots</div><div class="kpi-value" style="color:var(--purple)">37</div><div class="kpi-sub">Startups with PoC</div></div>
+      <div class="kpi-card"><div class="kpi-label">High Confidence</div><div class="kpi-value" style="color:var(--green)">36</div><div class="kpi-sub">Next quarter</div></div>
+    </div>
+
+    <!-- FUNNEL -->
+    <section class="reveal">
+      <div class="sec-label"><span class="sec-num">01</span><div class="sec-line"></div></div>
+      <div class="sec-title">Startup <em>Health Funnel</em></div>
+      <div class="sec-sub">From form submission to revenue generation — how the cohort is progressing this quarter.</div>
+      <div class="funnel-wrap">
+        <div class="funnel-row"><div class="funnel-stage" style="background:#0d1b3e">Total Responses</div><div class="funnel-bar-wrap"><div class="funnel-bar" data-w="100"></div></div><div class="funnel-count">66</div><div class="funnel-pct">100%</div></div>
+        <div class="funnel-row"><div class="funnel-stage" style="background:#2471a3">Had a Roadmap</div><div class="funnel-bar-wrap"><div class="funnel-bar" data-w="65"></div></div><div class="funnel-count">43</div><div class="funnel-pct">65%</div></div>
+        <div class="funnel-row"><div class="funnel-stage" style="background:#1b7a3e">TRL Progressed</div><div class="funnel-bar-wrap"><div class="funnel-bar" data-w="59"></div></div><div class="funnel-count">39</div><div class="funnel-pct">59%</div></div>
+        <div class="funnel-row"><div class="funnel-stage" style="background:#784212">MS ≥ 50%</div><div class="funnel-bar-wrap"><div class="funnel-bar" data-w="56"></div></div><div class="funnel-count">37</div><div class="funnel-pct">56%</div></div>
+        <div class="funnel-row"><div class="funnel-stage" style="background:#6c3483">Has Customer Convos</div><div class="funnel-bar-wrap"><div class="funnel-bar" data-w="53"></div></div><div class="funnel-count">35</div><div class="funnel-pct">53%</div></div>
+        <div class="funnel-row"><div class="funnel-stage" style="background:#c0392b">Has Active Pilots</div><div class="funnel-bar-wrap"><div class="funnel-bar" data-w="56"></div></div><div class="funnel-count">37</div><div class="funnel-pct">56%</div></div>
+        <div class="funnel-row"><div class="funnel-stage" style="background:#c9a84c">MS ≥ 80%</div><div class="funnel-bar-wrap"><div class="funnel-bar" data-w="24"></div></div><div class="funnel-count">16</div><div class="funnel-pct">24%</div></div>
+        <div class="funnel-row"><div class="funnel-stage" style="background:#1b7a3e">Has Revenue</div><div class="funnel-bar-wrap"><div class="funnel-bar" data-w="6"></div></div><div class="funnel-count">4</div><div class="funnel-pct">6%</div></div>
+      </div>
+    </section>
+
+    <!-- CHARTS -->
+    <section class="reveal">
+      <div class="sec-label"><span class="sec-num">02</span><div class="sec-line"></div></div>
+      <div class="sec-title">Cohort <em>Breakdown</em></div>
+      <div class="sec-sub">Stage, domain, confidence, and execution health across all 66 startups.</div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-title">Startup Stage</div>
+          <div class="bar-row"><span class="bar-label">Builder</span><div class="bar-track"><div class="bar-fill" data-w="100" style="background:#2471a3;"></div></div><span class="bar-num">37</span></div>
+          <div class="bar-row"><span class="bar-label">Scaler</span><div class="bar-track"><div class="bar-fill" data-w="41" style="background:#1b7a3e;"></div></div><span class="bar-num">15</span></div>
+          <div class="bar-row"><span class="bar-label">Explorer</span><div class="bar-track"><div class="bar-fill" data-w="38" style="background:#c9a84c;"></div></div><span class="bar-num">14</span></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Domain Mix</div>
+          <div class="bar-row"><span class="bar-label">Product</span><div class="bar-track"><div class="bar-fill" data-w="100" style="background:#6c3483;"></div></div><span class="bar-num">51</span></div>
+          <div class="bar-row"><span class="bar-label">Hybrid</span><div class="bar-track"><div class="bar-fill" data-w="24" style="background:#2471a3;"></div></div><span class="bar-num">12</span></div>
+          <div class="bar-row"><span class="bar-label">Service</span><div class="bar-track"><div class="bar-fill" data-w="6" style="background:#784212;"></div></div><span class="bar-num">3</span></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Confidence for Next Quarter</div>
+          <div class="bar-row"><span class="bar-label">High</span><div class="bar-track"><div class="bar-fill" data-w="100" style="background:#1b7a3e;"></div></div><span class="bar-num">36</span></div>
+          <div class="bar-row"><span class="bar-label">Medium</span><div class="bar-track"><div class="bar-fill" data-w="75" style="background:#e67e22;"></div></div><span class="bar-num">27</span></div>
+          <div class="bar-row"><span class="bar-label">Low</span><div class="bar-track"><div class="bar-fill" data-w="6" style="background:#c0392b;"></div></div><span class="bar-num">2</span></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">What Slowed Execution</div>
+          <div class="bar-row"><span class="bar-label">External dependencies</span><div class="bar-track"><div class="bar-fill" data-w="100" style="background:#c0392b;"></div></div><span class="bar-num">35</span></div>
+          <div class="bar-row"><span class="bar-label">Team bandwidth</span><div class="bar-track"><div class="bar-fill" data-w="37" style="background:#784212;"></div></div><span class="bar-num">13</span></div>
+          <div class="bar-row"><span class="bar-label">Time constraints</span><div class="bar-track"><div class="bar-fill" data-w="29" style="background:#e67e22;"></div></div><span class="bar-num">10</span></div>
+          <div class="bar-row"><span class="bar-label">Poor prioritization</span><div class="bar-track"><div class="bar-fill" data-w="3" style="background:#6b7a99;"></div></div><span class="bar-num">1</span></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Spend Aligned to Plan</div>
+          <div class="bar-row"><span class="bar-label">Yes — aligned</span><div class="bar-track"><div class="bar-fill" data-w="100" style="background:#1b7a3e;"></div></div><span class="bar-num">28</span></div>
+          <div class="bar-row"><span class="bar-label">Minor deviation</span><div class="bar-track"><div class="bar-fill" data-w="79" style="background:#e67e22;"></div></div><span class="bar-num">22</span></div>
+          <div class="bar-row"><span class="bar-label">Major deviation</span><div class="bar-track"><div class="bar-fill" data-w="25" style="background:#c0392b;"></div></div><span class="bar-num">7</span></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Had a Quarterly Roadmap</div>
+          <div class="bar-row"><span class="bar-label">Yes</span><div class="bar-track"><div class="bar-fill" data-w="100" style="background:#1b7a3e;"></div></div><span class="bar-num">43</span></div>
+          <div class="bar-row"><span class="bar-label">No</span><div class="bar-track"><div class="bar-fill" data-w="42" style="background:#c0392b;"></div></div><span class="bar-num">18</span></div>
+          <div class="bar-row"><span class="bar-label">Not answered</span><div class="bar-track"><div class="bar-fill" data-w="12" style="background:#6b7a99;"></div></div><span class="bar-num">5</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- TAB 2: PROGRESS & TRL -->
+  <div class="tab-content" id="tab-progress">
+    <section class="reveal">
+      <div class="sec-label"><span class="sec-num">03</span><div class="sec-line"></div></div>
+      <div class="sec-title">TRL <em>Progression</em></div>
+      <div class="sec-sub">59% of startups moved up in TRL this quarter. 36% stayed same. 5% regressed — flagged for review.</div>
+      <div class="kpi-grid" style="max-width:600px;">
+        <div class="kpi-card"><div class="kpi-label">↑ Progressed</div><div class="kpi-value" style="color:var(--green)">39</div><div class="kpi-sub">59%</div></div>
+        <div class="kpi-card"><div class="kpi-label">→ No Change</div><div class="kpi-value" style="color:var(--muted)">24</div><div class="kpi-sub">36%</div></div>
+        <div class="kpi-card"><div class="kpi-label">↓ Regressed</div><div class="kpi-value" style="color:var(--red)">3</div><div class="kpi-sub">5% · Review needed</div></div>
+      </div>
+    </section>
+    <section class="reveal">
+      <div class="sec-label"><span class="sec-num">04</span><div class="sec-line"></div></div>
+      <div class="sec-title">Milestone <em>Completion</em></div>
+      <div class="sec-sub">Average milestone completion: 47.7%. Only 24% of startups completed 80% or more of their planned milestones.</div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-title">Milestone Completion Buckets</div>
+          <div class="bar-row"><span class="bar-label">80–100% complete</span><div class="bar-track"><div class="bar-fill" data-w="100" style="background:#1b7a3e;"></div></div><span class="bar-num">16</span></div>
+          <div class="bar-row"><span class="bar-label">50–79% complete</span><div class="bar-track"><div class="bar-fill" data-w="131" style="background:#e67e22;"></div></div><span class="bar-num">21</span></div>
+          <div class="bar-row"><span class="bar-label">1–49% complete</span><div class="bar-track"><div class="bar-fill" data-w="125" style="background:#c0392b;"></div></div><span class="bar-num">20</span></div>
+          <div class="bar-row"><span class="bar-label">0% complete</span><div class="bar-track"><div class="bar-fill" data-w="25" style="background:#888;"></div></div><span class="bar-num">9</span></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Customer Engagement</div>
+          <div class="bar-row"><span class="bar-label">Has conversations</span><div class="bar-track"><div class="bar-fill" data-w="100" style="background:#2471a3;"></div></div><span class="bar-num">35</span></div>
+          <div class="bar-row"><span class="bar-label">Zero conversations</span><div class="bar-track"><div class="bar-fill" data-w="89" style="background:#c0392b;"></div></div><span class="bar-num">31</span></div>
+          <div class="bar-row"><span class="bar-label">Has active pilots</span><div class="bar-track"><div class="bar-fill" data-w="106" style="background:#1b7a3e;"></div></div><span class="bar-num">37</span></div>
+          <div class="bar-row"><span class="bar-label">Generating revenue</span><div class="bar-track"><div class="bar-fill" data-w="11" style="background:#c9a84c;"></div></div><span class="bar-num">4</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- TAB 3: BLOCKERS -->
+  <div class="tab-content" id="tab-blockers">
+    <section class="reveal">
+      <div class="sec-label"><span class="sec-num">05</span><div class="sec-line"></div></div>
+      <div class="sec-title">Blockers & <em>Constraints</em></div>
+      <div class="sec-sub">What blocked progress this quarter — and what startups identify as top constraints going forward.</div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-title">What Blocked Progress This Quarter</div>
+          <div class="bar-row"><span class="bar-label">Technical complexity</span><div class="bar-track"><div class="bar-fill" data-w="100" style="background:#c0392b;"></div></div><span class="bar-num">23</span></div>
+          <div class="bar-row"><span class="bar-label">Funding constraints</span><div class="bar-track"><div class="bar-fill" data-w="87" style="background:#784212;"></div></div><span class="bar-num">20</span></div>
+          <div class="bar-row"><span class="bar-label">Other</span><div class="bar-track"><div class="bar-fill" data-w="74" style="background:#888;"></div></div><span class="bar-num">17</span></div>
+          <div class="bar-row"><span class="bar-label">Lab / infra access</span><div class="bar-track"><div class="bar-fill" data-w="52" style="background:#e67e22;"></div></div><span class="bar-num">12</span></div>
+          <div class="bar-row"><span class="bar-label">Skill gaps</span><div class="bar-track"><div class="bar-fill" data-w="26" style="background:#6c3483;"></div></div><span class="bar-num">6</span></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Top Constraints Right Now</div>
+          <div class="bar-row"><span class="bar-label">Funding / runway</span><div class="bar-track"><div class="bar-fill" data-w="100" style="background:#c0392b;"></div></div><span class="bar-num">33</span></div>
+          <div class="bar-row"><span class="bar-label">Customer access</span><div class="bar-track"><div class="bar-fill" data-w="76" style="background:#784212;"></div></div><span class="bar-num">25</span></div>
+          <div class="bar-row"><span class="bar-label">Technology / Product</span><div class="bar-track"><div class="bar-fill" data-w="70" style="background:#2471a3;"></div></div><span class="bar-num">23</span></div>
+          <div class="bar-row"><span class="bar-label">Team capability</span><div class="bar-track"><div class="bar-fill" data-w="58" style="background:#6c3483;"></div></div><span class="bar-num">19</span></div>
+          <div class="bar-row"><span class="bar-label">Manufacturing / scale</span><div class="bar-track"><div class="bar-fill" data-w="48" style="background:#e67e22;"></div></div><span class="bar-num">16</span></div>
+          <div class="bar-row"><span class="bar-label">Regulatory / IP</span><div class="bar-track"><div class="bar-fill" data-w="42" style="background:#1b7a3e;"></div></div><span class="bar-num">14</span></div>
+          <div class="bar-row"><span class="bar-label">Business model</span><div class="bar-track"><div class="bar-fill" data-w="39" style="background:#c9a84c;"></div></div><span class="bar-num">13</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- TAB 4: OUTREACH LOG -->
+  <div class="tab-content" id="tab-outreach">
+    <section class="reveal">
+      <div class="sec-label"><span class="sec-num">06</span><div class="sec-line"></div></div>
+      <div class="sec-title">Outreach <em>Call Log</em></div>
+      <div class="sec-sub">60 startups called on 26-Feb-2026 — 35 virtual, 25 physical. Status recorded per call.</div>
+      <div class="outreach-grid">
+        <div class="out-kpi"><div class="out-kpi-val" style="color:var(--navy)">60</div><div class="out-kpi-label">Total Called</div></div>
+        <div class="out-kpi"><div class="out-kpi-val" style="color:var(--blue)">35</div><div class="out-kpi-label">Virtual</div></div>
+        <div class="out-kpi"><div class="out-kpi-val" style="color:var(--purple)">25</div><div class="out-kpi-label">Physical</div></div>
+        <div class="out-kpi"><div class="out-kpi-val" style="color:var(--green)">21</div><div class="out-kpi-label">Will Submit</div></div>
+        <div class="out-kpi"><div class="out-kpi-val" style="color:var(--red)">15</div><div class="out-kpi-label">No Response</div></div>
+        <div class="out-kpi"><div class="out-kpi-val" style="color:var(--amber)">7</div><div class="out-kpi-label">Busy / Callback</div></div>
+        <div class="out-kpi"><div class="out-kpi-val" style="color:var(--green)">44</div><div class="out-kpi-label">Submitted (form)</div></div>
+        <div class="out-kpi"><div class="out-kpi-val" style="color:var(--red)">1</div><div class="out-kpi-label">Startup Closed</div></div>
+      </div>
+      <!-- Outreach chart -->
+      <div class="charts-grid" style="margin-bottom:1.5rem;">
+        <div class="chart-card reveal">
+          <div class="chart-title">Call Status Breakdown</div>
+          <div class="bar-row"><span class="bar-label">Will Submit</span><div class="bar-track"><div class="bar-fill" data-w="100" style="background:#1b7a3e;"></div></div><span class="bar-num">21</span></div>
+          <div class="bar-row"><span class="bar-label">No Response</span><div class="bar-track"><div class="bar-fill" data-w="71" style="background:#c0392b;"></div></div><span class="bar-num">15</span></div>
+          <div class="bar-row"><span class="bar-label">Other / Discussed</span><div class="bar-track"><div class="bar-fill" data-w="52" style="background:#e67e22;"></div></div><span class="bar-num">11</span></div>
+          <div class="bar-row"><span class="bar-label">Busy</span><div class="bar-track"><div class="bar-fill" data-w="19" style="background:#784212;"></div></div><span class="bar-num">4</span></div>
+          <div class="bar-row"><span class="bar-label">Callback</span><div class="bar-track"><div class="bar-fill" data-w="14" style="background:#2471a3;"></div></div><span class="bar-num">3</span></div>
+          <div class="bar-row"><span class="bar-label">Not Reachable</span><div class="bar-track"><div class="bar-fill" data-w="10" style="background:#888;"></div></div><span class="bar-num">2</span></div>
+          <div class="bar-row"><span class="bar-label">Closed / Inactive</span><div class="bar-track"><div class="bar-fill" data-w="10" style="background:#b71c1c;"></div></div><span class="bar-num">2</span></div>
+        </div>
+        <div class="chart-card reveal">
+          <div class="chart-title">Virtual vs Physical Response Rate</div>
+          <div class="bar-row"><span class="bar-label">Virtual — Will Submit</span><div class="bar-track"><div class="bar-fill" data-w="100" style="background:#1b7a3e;"></div></div><span class="bar-num">~12</span></div>
+          <div class="bar-row"><span class="bar-label">Virtual — No Response</span><div class="bar-track"><div class="bar-fill" data-w="67" style="background:#c0392b;"></div></div><span class="bar-num">~8</span></div>
+          <div class="bar-row"><span class="bar-label">Physical — Will Submit</span><div class="bar-track"><div class="bar-fill" data-w="75" style="background:#2471a3;"></div></div><span class="bar-num">~9</span></div>
+          <div class="bar-row"><span class="bar-label">Physical — No Response</span><div class="bar-track"><div class="bar-fill" data-w="58" style="background:#e67e22;"></div></div><span class="bar-num">~7</span></div>
+        </div>
+      </div>
+      <!-- Outreach table -->
+      <div class="table-wrap reveal">
+        <div class="table-toolbar">
+          <input class="search-input" id="outSearch" type="text" placeholder="Search startup or remark..." oninput="filterOutreach()">
+          <select class="filter-select" id="outFilter" onchange="filterOutreach()">
+            <option value="">All Status</option>
+            <option>Will Submit</option>
+            <option>No Response</option>
+            <option>Busy</option>
+            <option>Callback</option>
+            <option>Not Reachable</option>
+            <option>Closed</option>
+            <option>Inactive</option>
+            <option>Other</option>
+            <option>No Remark</option>
+          </select>
+          <select class="filter-select" id="typeFilter" onchange="filterOutreach()">
+            <option value="">All Types</option>
+            <option value="virtual">Virtual</option>
+            <option value="physical">Physical</option>
+          </select>
+          <span class="table-count" id="outCount">60 startups</span>
+        </div>
+        <table>
+          <thead><tr><th>#</th><th>Startup Name</th><th>Contact</th><th>Type</th><th>Status</th><th>Remark</th></tr></thead>
+          <tbody id="outreachBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <!-- TAB 5: STARTUP ROSTER -->
+  <div class="tab-content" id="tab-roster">
+    <section class="reveal">
+      <div class="sec-label"><span class="sec-num">07</span><div class="sec-line"></div></div>
+      <div class="sec-title">Startup <em>Roster</em></div>
+      <div class="sec-sub">All 66 responses — searchable and filterable by stage, domain, and TRL direction.</div>
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <input class="search-input" id="rosterSearch" type="text" placeholder="Search startup or founder..." oninput="filterRoster()">
+          <select class="filter-select" id="stageFilter" onchange="filterRoster()">
+            <option value="">All Stages</option>
+            <option>Builder</option><option>Scaler</option><option>Explorer</option>
+          </select>
+          <select class="filter-select" id="trlFilter" onchange="filterRoster()">
+            <option value="">All TRL</option>
+            <option value="up">↑ Progressed</option>
+            <option value="same">→ Same</option>
+            <option value="down">↓ Regressed</option>
+          </select>
+          <span class="table-count" id="rosterCount">66 startups</span>
+        </div>
+        <table>
+          <thead><tr><th>#</th><th>Startup</th><th>Founder</th><th>Stage</th><th>Domain</th><th>TRL</th><th>Milestones</th><th>Pilots</th><th>Confidence</th></tr></thead>
+          <tbody id="rosterBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <!-- TAB 6: INSIGHTS -->
+  <div class="tab-content" id="tab-insights">
+    <section class="reveal">
+      <div class="sec-label"><span class="sec-num">08</span><div class="sec-line"></div></div>
+      <div class="sec-title">Key <em>Insights</em></div>
+      <div class="sec-sub">What this quarter's data is telling CTIE — and where to focus support next quarter.</div>
+      <div class="insights-grid">
+        <div class="insight-card dark"><div class="insight-icon">📈</div><div class="insight-title">TRL Movement Is Healthy</div><div class="insight-text">59% of startups progressed in TRL this quarter. 3 startups regressed — Biosyl, Emileage, and Chemioptics — all flagged for individual review next quarter.</div></div>
+        <div class="insight-card"><div class="insight-icon">💰</div><div class="insight-title">Funding Is the #1 Constraint</div><div class="insight-text">Funding/runway appears in 33 constraint responses — the single most cited constraint across all stages. Multiple startups specifically requested SISF grant tranche 2 release.</div></div>
+        <div class="insight-card"><div class="insight-icon">🤝</div><div class="insight-title">Customer Access Gap is Real</div><div class="insight-text">25 startups cite customer access as a top constraint yet 31 had zero customer conversations this quarter. CTIE industry connect programs would directly address this gap.</div></div>
+        <div class="insight-card dark"><div class="insight-icon">⚠️</div><div class="insight-title">35% Have No Roadmap</div><div class="insight-text">18 startups had no quarterly roadmap going into this quarter. Without a roadmap, milestone tracking is impossible. CTIE should make roadmap submission mandatory at quarter start.</div></div>
+        <div class="insight-card"><div class="insight-icon">🏭</div><div class="insight-title">External Dependencies Dominate</div><div class="insight-text">53% of startups cite external dependencies as the primary execution blocker — government approvals, vendor delays, regulatory bodies. These are outside CTIE's direct control but can be mitigated through network introductions.</div></div>
+        <div class="insight-card"><div class="insight-icon">📞</div><div class="insight-title">Outreach Works — 25% No Response</div><div class="insight-text">Of 60 called, 21 committed to submit same day and 44 eventually submitted. 15 had no response — these need a second contact attempt or email follow-up before next quarter close.</div></div>
+        <div class="insight-card dark"><div class="insight-icon">🚀</div><div class="insight-title">Agastya Machineries — Top Performer</div><div class="insight-text">₹15.9L revenue, 11 customer conversations, 2 active pilots — the standout this quarter. Agastya should be featured in next cohort communications as a benchmark.</div></div>
+        <div class="insight-card"><div class="insight-icon">🔒</div><div class="insight-title">One Startup Closed Operations</div><div class="insight-text">Celium Devices Private Limited has closed operations — confirmed during outreach. Should be formally exited from the program and records updated in the incubation portal.</div></div>
+      </div>
+    </section>
+  </div>
+
+</div><!-- /container -->
 
 <script>
-  // ============================================================================
-  // CONFIG — paste your GAS Web App /exec URL here after deploying Dashboard.gs
-  // ============================================================================
-  const API_URL = 'PASTE_YOUR_GAS_WEB_APP_URL_HERE';
+// ── DATA ──────────────────────────────────────────────
+const STARTUPS = [{"name":"Zenathom Private Limited","founder":"1","domain":"Product","stage":"Builder","trl_start":4,"trl_now":5,"trl_delta":1,"milestones":70.0,"revenue":10.0,"pilots":1,"convos":2,"confidence":"Medium","blocker":"Technical complexity, Lab/infrastructure access","constraint":"Technology/Product, Business model, Team capability","slowed_by":"Team bandwidth","roadmap":"No","spend":"Minor deviation","support":"Testing"},{"name":"Einetcorp Private Limited","founder":"Manoj Bhat","domain":"Product","stage":"Builder","trl_start":4,"trl_now":5,"trl_delta":1,"milestones":80.0,"revenue":0.0,"pilots":2,"convos":10,"confidence":"High","blocker":"Technical complexity, Skill gaps","constraint":"Technology/Product, Team capability, Manufacturing/scale","slowed_by":"External dependencies","roadmap":"Yes","spend":"Minor deviation","support":"Scale up Support in terms of funding, connect and business model enhancements"},{"name":"Powaha Infotech Private Limited","founder":"Siddalingappa Sangolli","domain":"Product","stage":"Builder","trl_start":4,"trl_now":5,"trl_delta":1,"milestones":2.0,"revenue":0.0,"pilots":2,"convos":2,"confidence":"High","blocker":"Technical complexity","constraint":"Technology/Product, Team capability, Funding/runway","slowed_by":"External dependencies","roadmap":"Yes","spend":"Major deviation","support":"Funding"},{"name":"DoketRun Tech Private Limited","founder":"Ajay Kabadi","domain":"Hybrid","stage":"Scaler","trl_start":6,"trl_now":7,"trl_delta":1,"milestones":80.0,"revenue":0.0,"pilots":3,"convos":3,"confidence":"High","blocker":"Funding constraints","constraint":"Funding/runway","slowed_by":"Team bandwidth","roadmap":"Yes","spend":"Minor deviation","support":"Funding/Grant"},{"name":"Armtronix Iot Pvt Ltd","founder":"Naren Nayak","domain":"Product","stage":"Scaler","trl_start":9,"trl_now":9,"trl_delta":0,"milestones":70.0,"revenue":0.0,"pilots":2,"convos":2,"confidence":"Medium","blocker":"Other","constraint":"Customer access, Business model","slowed_by":"External dependencies","roadmap":"No","spend":"Yes","support":"Customer connect and access - CNC Machine manufacturers"},{"name":"Neuorigami Automation India Private Limited","founder":"Sagar Virapannavar","domain":"Hybrid","stage":"Scaler","trl_start":6,"trl_now":7,"trl_delta":1,"milestones":60.0,"revenue":0.0,"pilots":3,"convos":3,"confidence":"High","blocker":"Technical complexity, Funding constraints","constraint":"Customer access, Team capability, Funding/runway","slowed_by":"External dependencies","roadmap":"Yes","spend":"Minor deviation","support":"Domain specific Mentorship and funding"},{"name":"Ethernovia India Pvt Ltd","founder":"Ramin Shirani","domain":"Product","stage":"Explorer","trl_start":6,"trl_now":6,"trl_delta":0,"milestones":0.0,"revenue":0.0,"pilots":0,"convos":0,"confidence":"High","blocker":"Other","constraint":"Regulatory / IP, Manufacturing/scale","slowed_by":"External dependencies","roadmap":"No","spend":"Minor deviation","support":"As of now, nothing"},{"name":"IAMUSAP Ventures","founder":"Sriraaman M","domain":"Product","stage":"Builder","trl_start":3,"trl_now":4,"trl_delta":1,"milestones":100.0,"revenue":0.0,"pilots":1,"convos":1,"confidence":"High","blocker":"nan","constraint":"Customer access, Funding/runway, Regulatory / IP","slowed_by":"Time constraints","roadmap":"Yes","spend":"Major deviation","support":"Nothing specific"},{"name":"Vayodaanta Biotech Private Limited","founder":"Sayed Maaz Naswale","domain":"Product","stage":"Builder","trl_start":2,"trl_now":3,"trl_delta":1,"milestones":60.0,"revenue":0.0,"pilots":1,"convos":0,"confidence":"High","blocker":"nan","constraint":"Funding/runway, Regulatory / IP, Manufacturing/scale","slowed_by":"External dependencies","roadmap":"Yes","spend":"Yes","support":"Mentorship"},{"name":"SIN (Sustainable Innovation And Nature)","founder":"Shafi I Nadaf","domain":"Product","stage":"Explorer","trl_start":2,"trl_now":4,"trl_delta":2,"milestones":90.0,"revenue":0.0,"pilots":1,"convos":1,"confidence":"Medium","blocker":"Funding constraints, Other","constraint":"Customer access, Business model, Funding/runway","slowed_by":"External dependencies","roadmap":"No","spend":"Minor deviation","support":"Marketing and funding"},{"name":"Chemioptics Healthcare Private Limited","founder":"Amitkumar Vernekar & Sarah Dsouza","domain":"Hybrid","stage":"Builder","trl_start":6,"trl_now":5,"trl_delta":-1,"milestones":50.0,"revenue":0.0,"pilots":3,"convos":10,"confidence":"Medium","blocker":"Lab/infrastructure access, Other","constraint":"Customer access, Regulatory / IP, Manufacturing/scale","slowed_by":"Team bandwidth","roadmap":"Yes","spend":"Major deviation","support":"Regulatory"},{"name":"Techxcelerate innovation Pvt Ltd","founder":"Nidhi.S.Chickerur","domain":"Product","stage":"Builder","trl_start":4,"trl_now":4,"trl_delta":0,"milestones":80.0,"revenue":0.0,"pilots":2,"convos":0,"confidence":"High","blocker":"nan","constraint":"Customer access, Business model, Manufacturing/scale","slowed_by":"Time constraints","roadmap":"Yes","spend":"Yes","support":"All three"},{"name":"Autoretrotec Private Limited","founder":"Rohini Hongal, Supriya Katwe","domain":"Product","stage":"Explorer","trl_start":4,"trl_now":7,"trl_delta":3,"milestones":60.0,"revenue":0.0,"pilots":1,"convos":0,"confidence":"Medium","blocker":"Technical complexity, Skill gaps","constraint":"Team capability","slowed_by":"External dependencies","roadmap":"Yes","spend":"Yes","support":"Technical support"},{"name":"Honnavar Techsolutions LLP","founder":"Dattaguru Prabhu","domain":"Product","stage":"Builder","trl_start":3,"trl_now":6,"trl_delta":3,"milestones":30.0,"revenue":0.0,"pilots":0,"convos":2,"confidence":"Medium","blocker":"Technical complexity, Funding constraints","constraint":"Team capability, Funding/runway","slowed_by":"External dependencies","roadmap":"Yes","spend":"Minor deviation","support":"Investment grant"},{"name":"KVB Green Energy","founder":"Ravikumar Chavdi","domain":"Hybrid","stage":"Scaler","trl_start":3,"trl_now":8,"trl_delta":5,"milestones":80.0,"revenue":0.0,"pilots":2,"convos":2,"confidence":"High","blocker":"Lab/infrastructure access, Funding constraints","constraint":"Customer access, Funding/runway, Regulatory / IP","slowed_by":"External dependencies","roadmap":"Yes","spend":"Yes","support":"Funding support, Lab supports, Internship support"},{"name":"Three Axis Engineering Services Private Limited","founder":"Premanand Dundur","domain":"Service","stage":"Scaler","trl_start":9,"trl_now":9,"trl_delta":0,"milestones":0.0,"revenue":0.0,"pilots":1,"convos":2,"confidence":"Medium","blocker":"Technical complexity, Other","constraint":"Customer access, Team capability","slowed_by":"nan","roadmap":"nan","spend":"nan","support":"nan"},{"name":"Bionex Technologies Pvt Ltd","founder":"Revati Mahantesh Patagundi","domain":"Product","stage":"Explorer","trl_start":3,"trl_now":3,"trl_delta":0,"milestones":0.0,"revenue":0.0,"pilots":0,"convos":0,"confidence":"Medium","blocker":"Funding constraints","constraint":"Funding/runway, Regulatory / IP, Manufacturing/scale","slowed_by":"nan","roadmap":"No","spend":"nan","support":"nan"},{"name":"Enzybiotech","founder":"Chaya S Patil","domain":"Product","stage":"Builder","trl_start":3,"trl_now":5,"trl_delta":2,"milestones":40.0,"revenue":0.0,"pilots":0,"convos":0,"confidence":"High","blocker":"Lab/infrastructure access, Funding constraints","constraint":"Technology/Product, Funding/runway","slowed_by":"Time constraints","roadmap":"Yes","spend":"nan","support":"Lab access for next stage"},{"name":"Diabeath","founder":"Supriya S Pawar","domain":"Product","stage":"Builder","trl_start":3,"trl_now":3,"trl_delta":0,"milestones":40.0,"revenue":0.0,"pilots":0,"convos":0,"confidence":"Medium","blocker":"Technical complexity, Lab/infrastructure access","constraint":"Technology/Product, Customer access, Regulatory / IP","slowed_by":"External dependencies","roadmap":"Yes","spend":"Yes","support":"nan"},{"name":"Tayiberu Technologies LLP","founder":"Channabasayya Charantimatha","domain":"Product","stage":"Builder","trl_start":5,"trl_now":7,"trl_delta":2,"milestones":0.0,"revenue":0.0,"pilots":0,"convos":0,"confidence":"Medium","blocker":"Technical complexity, Other","constraint":"Technology/Product, Team capability, Funding/runway","slowed_by":"External dependencies","roadmap":"No","spend":"Major deviation","support":"Funding, Patent, CAD, 3D printing, Technical guidance"},{"name":"Wegha Herbals Private Limited","founder":"Dr Namratha P Hegde","domain":"Product","stage":"Builder","trl_start":3,"trl_now":4,"trl_delta":1,"milestones":25.0,"revenue":0.0,"pilots":0,"convos":0,"confidence":"Medium","blocker":"Technical complexity","constraint":"Technology/Product, Team capability, Manufacturing/scale","slowed_by":"Team bandwidth","roadmap":"No","spend":"Minor deviation","support":"Clinician connects"},{"name":"Agastya Machineries LLP","founder":"Suprith Pauskar","domain":"Hybrid","stage":"Builder","trl_start":6,"trl_now":6,"trl_delta":0,"milestones":80.0,"revenue":1590890.0,"pilots":2,"convos":11,"confidence":"Medium","blocker":"nan","constraint":"Customer access, Team capability","slowed_by":"Team bandwidth","roadmap":"No","spend":"Yes","support":"Team Building"},{"name":"Nanocemx","founder":"Dr. Roopa AK","domain":"Product","stage":"Explorer","trl_start":2,"trl_now":3,"trl_delta":1,"milestones":20.0,"revenue":0.0,"pilots":0,"convos":0,"confidence":"Medium","blocker":"Technical complexity, Skill gaps","constraint":"Technology/Product, Customer access, Manufacturing/scale","slowed_by":"External dependencies","roadmap":"Yes","spend":"Minor deviation","support":"Technical expertise"},{"name":"E-Artkey Innovation Private Limited","founder":"Vaibhav Sugandhi","domain":"Hybrid","stage":"Scaler","trl_start":5,"trl_now":7,"trl_delta":2,"milestones":20.0,"revenue":0.0,"pilots":2,"convos":2,"confidence":"High","blocker":"Other","constraint":"Customer access, Team capability, Manufacturing/scale","slowed_by":"External dependencies","roadmap":"Yes","spend":"Minor deviation","support":"Connection to clients"},{"name":"Navya Therapeutics Private Limited","founder":"Vinay Konaje","domain":"Product","stage":"Explorer","trl_start":1,"trl_now":2,"trl_delta":1,"milestones":70.0,"revenue":0.0,"pilots":3,"convos":0,"confidence":"High","blocker":"Technical complexity, Other","constraint":"Technology/Product, Business model, Regulatory / IP","slowed_by":"External dependencies","roadmap":"Yes","spend":"Yes","support":"Enable internships"},{"name":"Vegam.IO Solutions Private Limited","founder":"Savita Kasibhat","domain":"Product","stage":"Builder","trl_start":9,"trl_now":9,"trl_delta":0,"milestones":50.0,"revenue":0.0,"pilots":3,"convos":2,"confidence":"Medium","blocker":"Other","constraint":"Customer access, Business model, Manufacturing/scale","slowed_by":"Team bandwidth","roadmap":"Yes","spend":"Minor deviation","support":"No"},{"name":"Indrone Aero Systems","founder":"Anurag Joshi","domain":"Hybrid","stage":"Builder","trl_start":6,"trl_now":7,"trl_delta":1,"milestones":70.0,"revenue":0.0,"pilots":3,"convos":4,"confidence":"High","blocker":"Funding constraints","constraint":"Customer access, Funding/runway","slowed_by":"Time constraints","roadmap":"Yes","spend":"Minor deviation","support":"Customer connect and Govt connect"},{"name":"ClassPulse","founder":"Akash Janawad","domain":"Hybrid","stage":"Builder","trl_start":2,"trl_now":3,"trl_delta":1,"milestones":18.0,"revenue":0.0,"pilots":0,"convos":2,"confidence":"High","blocker":"Technical complexity, Lab/infrastructure access","constraint":"Technology/Product, Customer access, Team capability","slowed_by":"Time constraints","roadmap":"Yes","spend":"nan","support":"GPU system access for ML/DL training"},{"name":"Bionerra LLP","founder":"Aparna Anand Shenvi","domain":"Product","stage":"Builder","trl_start":4,"trl_now":6,"trl_delta":2,"milestones":50.0,"revenue":0.0,"pilots":0,"convos":5,"confidence":"High","blocker":"nan","constraint":"Technology/Product, Regulatory / IP, Manufacturing/scale","slowed_by":"External dependencies","roadmap":"Yes","spend":"Yes","support":"Some more funding"},{"name":"Neuroanolog Private Limited","founder":"Abhilash Bikkannavar, Sujatha Kotabagi","domain":"Product","stage":"Explorer","trl_start":1,"trl_now":3,"trl_delta":2,"milestones":60.0,"revenue":0.0,"pilots":1,"convos":0,"confidence":"High","blocker":"nan","constraint":"Team capability","slowed_by":"Team bandwidth","roadmap":"Yes","spend":"Yes","support":"nan"},{"name":"Applied Aero Labs Private Limited","founder":"Dr Pardha Saradhi Gurugubelli","domain":"Product","stage":"Builder","trl_start":4,"trl_now":5,"trl_delta":1,"milestones":90.0,"revenue":0.0,"pilots":1,"convos":3,"confidence":"High","blocker":"nan","constraint":"Business model, Team capability, Regulatory / IP","slowed_by":"External dependencies","roadmap":"Yes","spend":"Minor deviation","support":"IP filing support"},{"name":"Biosyl Technologies Private Limited","founder":"Sarah Dsouza","domain":"Product","stage":"Scaler","trl_start":9,"trl_now":7,"trl_delta":-2,"milestones":35.0,"revenue":0.0,"pilots":15,"convos":6,"confidence":"Medium","blocker":"Technical complexity, Lab/infrastructure access","constraint":"Technology/Product, Funding/runway","slowed_by":"Time constraints","roadmap":"Yes","spend":"Minor deviation","support":"Funding"},{"name":"Vandyam Solutions Private Limited","founder":"Vinayak Kulkarni, Sunil M","domain":"Product","stage":"Scaler","trl_start":7,"trl_now":8,"trl_delta":1,"milestones":75.0,"revenue":0.0,"pilots":2,"convos":4,"confidence":"High","blocker":"Technical complexity","constraint":"Customer access, Funding/runway","slowed_by":"Time constraints","roadmap":"Yes","spend":"Yes","support":"Connecting right industries, core R&D grants"},{"name":"Arven Technomers Private Limited","founder":"Rohith Narayanaswamy","domain":"Product","stage":"Scaler","trl_start":8,"trl_now":8,"trl_delta":0,"milestones":60.0,"revenue":0.0,"pilots":0,"convos":3,"confidence":"Medium","blocker":"Funding constraints","constraint":"Funding/runway","slowed_by":"External dependencies","roadmap":"Yes","spend":"Major deviation","support":"Funding, Market Access, Manpower, Testing facilities"},{"name":"Juricloud Private Limited","founder":"Preetam","domain":"Product","stage":"Scaler","trl_start":6,"trl_now":9,"trl_delta":3,"milestones":80.0,"revenue":0.0,"pilots":0,"convos":0,"confidence":"High","blocker":"nan","constraint":"Funding/runway","slowed_by":"Team bandwidth","roadmap":"Yes","spend":"Yes","support":"Network Support from KLE CTIE"},{"name":"Emileage Initiative Private Limited","founder":"Basavareddy","domain":"Product","stage":"Scaler","trl_start":8,"trl_now":6,"trl_delta":-2,"milestones":45.0,"revenue":0.0,"pilots":5,"convos":5,"confidence":"High","blocker":"Other","constraint":"Customer access, Business model, Manufacturing/scale","slowed_by":"Time constraints","roadmap":"Yes","spend":"Minor deviation","support":"CSR activity connections"},{"name":"Suraksha MedTech Innovations","founder":"Shubham Basavaraj Bagodi","domain":"Product","stage":"Explorer","trl_start":1,"trl_now":3,"trl_delta":2,"milestones":10.0,"revenue":0.0,"pilots":0,"convos":0,"confidence":"Medium","blocker":"Technical complexity, Skill gaps","constraint":"Technology/Product, Funding/runway","slowed_by":"External dependencies","roadmap":"Yes","spend":"Yes","support":"Funds"},{"name":"FarmerCharmer","founder":"Prajin AD, Tejas Chalwadi","domain":"Product","stage":"Explorer","trl_start":3,"trl_now":7,"trl_delta":4,"milestones":80.0,"revenue":0.0,"pilots":0,"convos":0,"confidence":"Medium","blocker":"Technical complexity","constraint":"Technology/Product, Manufacturing/scale","slowed_by":"Time constraints","roadmap":"No","spend":"Yes","support":"PoC feedback and guidance"},{"name":"Green PMU SEMI Private Limited","founder":"Sumit Bhat","domain":"Hybrid","stage":"Builder","trl_start":5,"trl_now":6,"trl_delta":1,"milestones":70.0,"revenue":0.0,"pilots":0,"convos":1,"confidence":"High","blocker":"Lab/infrastructure access, Funding constraints","constraint":"Customer access, Funding/runway, Manufacturing/scale","slowed_by":"Poor prioritization","roadmap":"Yes","spend":"Yes","support":"Lab access, Funding grant options"},{"name":"POMLA Naturals LLP","founder":"Dr. Shivaleela V B and Siddangoud Kadlewad","domain":"Product","stage":"Scaler","trl_start":3,"trl_now":9,"trl_delta":6,"milestones":100.0,"revenue":0.0,"pilots":0,"convos":10,"confidence":"High","blocker":"Funding constraints","constraint":"Customer access, Funding/runway, Manufacturing/scale","slowed_by":"Team bandwidth","roadmap":"Yes","spend":"Minor deviation","support":"Scale-up funding for automated machinery"},{"name":"Flexicore Automations","founder":"Rushikesh Vinay Khedekar","domain":"Product","stage":"Builder","trl_start":2,"trl_now":4,"trl_delta":2,"milestones":70.0,"revenue":0.0,"pilots":0,"convos":1,"confidence":"High","blocker":"Technical complexity, Lab/infrastructure access","constraint":"Technology/Product","slowed_by":"External dependencies","roadmap":"Yes","spend":"Minor deviation","support":"Workspace and 3D printing machine access"},{"name":"Arka Creatos Pvt Ltd","founder":"M A Sudeept","domain":"Product","stage":"Builder","trl_start":4,"trl_now":4,"trl_delta":0,"milestones":50.0,"revenue":0.0,"pilots":0,"convos":2,"confidence":"Medium","blocker":"Funding constraints, Other","constraint":"Funding/runway, Regulatory / IP, Manufacturing/scale","slowed_by":"External dependencies","roadmap":"No","spend":"Minor deviation","support":"SISF grant 2nd tranche release"},{"name":"Zenathom","founder":"Sudesh Damodara Shetty","domain":"Product","stage":"Builder","trl_start":3,"trl_now":3,"trl_delta":0,"milestones":60.0,"revenue":0.0,"pilots":1,"convos":2,"confidence":"High","blocker":"Technical complexity","constraint":"Customer access, Team capability, Funding/runway","slowed_by":"Team bandwidth","roadmap":"Yes","spend":"Minor deviation","support":"Funding Tranche-2 Release"},{"name":"Cooling And Ventilation Enterprise Private Limited","founder":"Satyajeet Kumar","domain":"Product","stage":"Scaler","trl_start":9,"trl_now":9,"trl_delta":0,"milestones":75.0,"revenue":40000.0,"pilots":11,"convos":4,"confidence":"High","blocker":"Skill gaps, Funding constraints","constraint":"Business model, Team capability, Funding/runway","slowed_by":"External dependencies","roadmap":"Yes","spend":"Major deviation","support":"Funding, Team building, Business model refinement"},{"name":"Pratyag Tecnocart Private Limited","founder":"Piyush Rode","domain":"Product","stage":"Explorer","trl_start":9,"trl_now":9,"trl_delta":0,"milestones":100.0,"revenue":0.0,"pilots":5,"convos":2,"confidence":"High","blocker":"nan","constraint":"Customer access, Business model, Team capability","slowed_by":"External dependencies","roadmap":"No","spend":"Yes","support":"nan"},{"name":"Agnihotri Aerospace LLP","founder":"Mahabaleshwar R Bhat","domain":"Product","stage":"Builder","trl_start":5,"trl_now":6,"trl_delta":1,"milestones":50.0,"revenue":0.0,"pilots":1,"convos":0,"confidence":"High","blocker":"nan","constraint":"Funding/runway","slowed_by":"External dependencies","roadmap":"Yes","spend":"Yes","support":"CNC machine"},{"name":"Celesticlabs Private Limited","founder":"Abhay Jayaprakash Nayak, Aditi S K","domain":"Product","stage":"Builder","trl_start":1,"trl_now":3,"trl_delta":2,"milestones":40.0,"revenue":0.0,"pilots":1,"convos":3,"confidence":"High","blocker":"Lab/infrastructure access, Other","constraint":"Business model, Funding/runway, Regulatory / IP","slowed_by":"Team bandwidth","roadmap":"No","spend":"Minor deviation","support":"Early funding for stress testing"},{"name":"Jivanah Platform Services Pvt Ltd","founder":"Nijagun Hiremath","domain":"Product","stage":"Builder","trl_start":6,"trl_now":7,"trl_delta":1,"milestones":95.0,"revenue":0.0,"pilots":3,"convos":0,"confidence":"Medium","blocker":"Funding constraints","constraint":"Technology/Product, Business model, Funding/runway","slowed_by":"Team bandwidth","roadmap":"Yes","spend":"Minor deviation","support":"nan"},{"name":"Quantum Four","founder":"Darshan Sanjeev Patil","domain":"Product","stage":"Builder","trl_start":1,"trl_now":2,"trl_delta":1,"milestones":20.0,"revenue":0.0,"pilots":0,"convos":0,"confidence":"High","blocker":"Other","constraint":"nan","slowed_by":"External dependencies","roadmap":"Yes","spend":"Yes","support":"Technical mentorship for sensor accuracy"},{"name":"Aivolved Technologies Private Limited","founder":"Sudip Chandra Gupta","domain":"Product","stage":"Builder","trl_start":4,"trl_now":5,"trl_delta":1,"milestones":80.0,"revenue":0.0,"pilots":1,"convos":0,"confidence":"Medium","blocker":"Technical complexity, Funding constraints","constraint":"Technology/Product, Funding/runway","slowed_by":"External dependencies","roadmap":"Yes","spend":"Yes","support":"Nothing at the moment"},{"name":"Avantro labs","founder":"Chetan Shettar","domain":"Product","stage":"Explorer","trl_start":1,"trl_now":3,"trl_delta":2,"milestones":0.0,"revenue":0.0,"pilots":0,"convos":0,"confidence":"Medium","blocker":"Funding constraints","constraint":"Technology/Product, Team capability, Funding/runway","slowed_by":"Time constraints","roadmap":"No","spend":"nan","support":"Dedicated person for funding applications"},{"name":"Saralsiddhi Private Limited","founder":"Rajashekhar and Dr. Vasanth Patil","domain":"Product","stage":"Explorer","trl_start":2,"trl_now":4,"trl_delta":2,"milestones":0.0,"revenue":0.0,"pilots":0,"convos":0,"confidence":"Low","blocker":"Technical complexity","constraint":"Technology/Product, Business model","slowed_by":"External dependencies","roadmap":"No","spend":"Yes","support":"nan"},{"name":"Athreya Technologies Private Limited","founder":"Ritu Hemantkumar Vernekar","domain":"Service","stage":"Explorer","trl_start":3,"trl_now":3,"trl_delta":0,"milestones":100.0,"revenue":0.0,"pilots":1,"convos":1,"confidence":"Low","blocker":"Skill gaps, Other","constraint":"Customer access, Funding/runway","slowed_by":"External dependencies","roadmap":"No","spend":"Yes","support":"nil"},{"name":"Anu Yek Rasayan Solutions Pvt Ltd","founder":"Hiralal Merwade","domain":"Service","stage":"Explorer","trl_start":3,"trl_now":4,"trl_delta":1,"milestones":60.0,"revenue":0.0,"pilots":2,"convos":2,"confidence":"Medium","blocker":"nan","constraint":"Technology/Product, Customer access, Funding/runway","slowed_by":"External dependencies","roadmap":"No","spend":"Major deviation","support":"nan"},{"name":"Qtrino Labs Private Limited","founder":"Jawar Singh","domain":"Hybrid","stage":"Builder","trl_start":6,"trl_now":6,"trl_delta":0,"milestones":70.0,"revenue":0.0,"pilots":2,"convos":0,"confidence":"Medium","blocker":"Funding constraints, Other","constraint":"Technology/Product, Customer access, Funding/runway","slowed_by":"External dependencies","roadmap":"Yes","spend":"Yes","support":"NIL"},{"name":"Arven Technomers Private Limited","founder":"Rohith Narayanaswamy, Venkatesh Chhabria","domain":"Hybrid","stage":"Scaler","trl_start":8,"trl_now":8,"trl_delta":0,"milestones":80.0,"revenue":0.0,"pilots":4,"convos":3,"confidence":"High","blocker":"Funding constraints","constraint":"Funding/runway","slowed_by":"External dependencies","roadmap":"Yes","spend":"Yes","support":"Funding, Access to Material Testing"},{"name":"Bionex Technologies Private Limited","founder":"Revati Mahantesh Patagundi","domain":"Product","stage":"Builder","trl_start":4,"trl_now":4,"trl_delta":0,"milestones":0.4,"revenue":0.0,"pilots":1,"convos":0,"confidence":"Medium","blocker":"Funding constraints","constraint":"Technology/Product, Funding/runway, Regulatory / IP","slowed_by":"External dependencies","roadmap":"No","spend":"Minor deviation","support":"Funding, CDSCO certification guidance"}];
 
-  // ============================================================================
-  // Boot
-  // ============================================================================
-  let DATA = null;
+const OUTREACH = [{"sl":"1","name":"Agnihotri Aerospace LLP","contact":"82772 29441","remark":"Will be submitting today","status":"Will Submit","type":"virtual"},{"sl":"2","name":"Aiguru","contact":"9620359518","remark":"Will be transferring seed amount back","status":"Other","type":"virtual"},{"sl":"3","name":"Aivolved Technologies Private Limited","contact":"9902497961","remark":"No response / Will be submitting today","status":"Will Submit","type":"virtual"},{"sl":"4","name":"Akash + Karan (ClassPulse)","contact":"7624 927 665","remark":"Today likely to be done, discussing with students ML/DL ClassPulse","status":"Will Submit","type":"virtual"},{"sl":"5","name":"Anusharan Enterprise","contact":"9491881722","remark":"No response","status":"No Response","type":"virtual"},{"sl":"6","name":"Applied Aero Labs Private Limited","contact":"7995663723","remark":"No response","status":"No Response","type":"virtual"},{"sl":"7","name":"Arka Creatos Private Limited","contact":"81500 81505","remark":"Will be submitting EOD today","status":"Will Submit","type":"virtual"},{"sl":"8","name":"Arven Technomers Private Limited","contact":"99001 22881","remark":"No response, will call back SMS","status":"Callback","type":"virtual"},{"sl":"9","name":"Astr Defence Private Limited","contact":"9481731927","remark":"Mr. Ankush confirmed, will submit it today EOD","status":"Will Submit","type":"virtual"},{"sl":"10","name":"Astr Tactical Private Limited","contact":"94817 31927","remark":"","status":"No Remark","type":"virtual"},{"sl":"11","name":"Bionerra LLP","contact":"9901775420","remark":"No response","status":"No Response","type":"virtual"},{"sl":"12","name":"Celesticlabs Private Limited","contact":"9008057050","remark":"Abhay JN will submit it today","status":"Will Submit","type":"virtual"},{"sl":"13","name":"Cooling And Ventilation Enterprise Private Limited","contact":"94260 44845","remark":"Mr. Satyajeet will submit it today","status":"Will Submit","type":"virtual"},{"sl":"14","name":"Darshan Patil","contact":"90190 02640","remark":"Will submit it today","status":"Will Submit","type":"virtual"},{"sl":"15","name":"Emileage Initiative Private Limited","contact":"7406671774","remark":"Will submit it today","status":"Will Submit","type":"virtual"},{"sl":"16","name":"Farmer Charmer","contact":"8600166810","remark":"Will submit it today","status":"Will Submit","type":"virtual"},{"sl":"17","name":"Harley Grow","contact":"7892338411","remark":"Handedover to BioTech Dept, will request HoD Sir Basavraj Hungund","status":"Other","type":"virtual"},{"sl":"18","name":"Imminity Private Limited","contact":"9632206015","remark":"No response","status":"No Response","type":"virtual"},{"sl":"19","name":"Juricloud Private Limited","contact":"9110448815","remark":"Busy","status":"Busy","type":"virtual"},{"sl":"20","name":"Mars Meat (Sanbeer Private Limited)","contact":"9731401716","remark":"Busy","status":"Busy","type":"virtual"},{"sl":"21","name":"Metaxp Private Limited","contact":"9148722085","remark":"Not looking for further funding & will call back","status":"Callback","type":"virtual"},{"sl":"22","name":"Mridakranti Private Limited","contact":"97688 78722","remark":"Will submit it today","status":"Will Submit","type":"virtual"},{"sl":"23","name":"Neuroanolog Private Limited","contact":"8310159365","remark":"Mr. Abhilash will submit it today","status":"Will Submit","type":"virtual"},{"sl":"24","name":"Pomla Naturals LLP","contact":"99163 15307","remark":"Will submit it today","status":"Will Submit","type":"virtual"},{"sl":"25","name":"Pratyag Tecnocart Private Limited","contact":"98906 37283","remark":"No response","status":"No Response","type":"virtual"},{"sl":"26","name":"Pravartya Labs","contact":"94490 52209","remark":"Will submit it today","status":"Will Submit","type":"virtual"},{"sl":"27","name":"Pravinya Infotech","contact":"9448821697","remark":"Busy","status":"Busy","type":"virtual"},{"sl":"28","name":"Qtrino Labs Private Limited","contact":"94258 02562","remark":"Temp out of service","status":"Not Reachable","type":"virtual"},{"sl":"29","name":"Resontic Ai","contact":"8310388018","remark":"No response","status":"No Response","type":"virtual"},{"sl":"30","name":"Rushikesh","contact":"77604 34577","remark":"Will submit it today","status":"Will Submit","type":"virtual"},{"sl":"31","name":"Sachin Karadgi","contact":"7899911836","remark":"Will try to submit it today","status":"Will Submit","type":"virtual"},{"sl":"32","name":"Saralsiddhi Private Limited","contact":"9902749144","remark":"Not getting connected, call ends immediately","status":"Not Reachable","type":"virtual"},{"sl":"33","name":"Shubham B Bagodi","contact":"8618552576","remark":"Will submit it today","status":"Will Submit","type":"virtual"},{"sl":"34","name":"Symgrow Technologies Private Limited","contact":"9481732756","remark":"No response","status":"No Response","type":"virtual"},{"sl":"35","name":"Vandyam Solutions Private Limited","contact":"98458 58345","remark":"Will submit it today Vinayak Kulkarni","status":"Will Submit","type":"virtual"},{"sl":"36","name":"Abhiyantrik Solutions Private Limited","contact":"7795119205","remark":"No response","status":"No Response","type":"physical"},{"sl":"37","name":"Anu Yek Rasayan Solutions Pvt Ltd","contact":"94483 44996","remark":"Will check & submit it today","status":"Will Submit","type":"physical"},{"sl":"38","name":"Athreya Technologies Private Limited","contact":"9449973600","remark":"Will check & submit it today","status":"Will Submit","type":"physical"},{"sl":"39","name":"Avantro labs","contact":"9148863578","remark":"Will check & submit it today","status":"Will Submit","type":"physical"},{"sl":"40","name":"Biosyl Technologies Private Limited","contact":"9902936832","remark":"No response","status":"No Response","type":"physical"},{"sl":"41","name":"Bionex","contact":"8296384146","remark":"","status":"No Remark","type":"physical"},{"sl":"42","name":"Celium Devices Private Limited","contact":"9538437965","remark":"Startup closed operations","status":"Closed","type":"physical"},{"sl":"43","name":"Chemioptics Healthcare Private Limited","contact":"9902936832","remark":"No response","status":"No Response","type":"physical"},{"sl":"44","name":"Dori Software Systems Private Limited","contact":"8277071418","remark":"Will submit it today","status":"Will Submit","type":"physical"},{"sl":"45","name":"E-Artkey Innovation Private Limited","contact":"7411804972","remark":"Will submit it today","status":"Will Submit","type":"physical"},{"sl":"46","name":"Farmercoin Smart Robotic Solutions","contact":"8600166810","remark":"Number belongs to Farmer Charmer","status":"Other","type":"physical"},{"sl":"47","name":"Green PMU SEMI Private Limited","contact":"98867 00757","remark":"Not in service","status":"Not Reachable","type":"physical"},{"sl":"48","name":"Indrone Aero Systems","contact":"96633 50976","remark":"Will submit it today","status":"Will Submit","type":"physical"},{"sl":"49","name":"IOVIS Technologies","contact":"+1 (860) 910-4877","remark":"WhatsApp call made, no response","status":"No Response","type":"physical"},{"sl":"50","name":"Jivanah Platform Services Pvt Ltd","contact":"8800377977","remark":"Will submit it today else tomorrow morning, out of station","status":"Will Submit","type":"physical"},{"sl":"51","name":"Kalpas Innovations Private Limited","contact":"9845670684","remark":"No response, voice mail dropped","status":"No Response","type":"physical"},{"sl":"52","name":"Navya Therapeutics Private Limited","contact":"9980562387","remark":"Will check & submit it today","status":"Will Submit","type":"physical"},{"sl":"53","name":"Pixamount Innovations","contact":"9538990526","remark":"Will check & submit it today","status":"Other","type":"physical"},{"sl":"54","name":"Saureno Energene Private Limited","contact":"9008065480","remark":"Will call back","status":"Callback","type":"physical"},{"sl":"55","name":"Semi-Ksha Semiconductors Private Limited","contact":"9886867779","remark":"Will check & ask Team to submit, leaving for Mumbai","status":"Other","type":"physical"},{"sl":"56","name":"Teloquence Private Limited","contact":"8951010964","remark":"Will ask Team to submit, he is busy","status":"Other","type":"physical"},{"sl":"57","name":"ThirdEye Data","contact":"9019590924","remark":"Not working ThirdEye — refer email 23-02-2026","status":"Inactive","type":"physical"},{"sl":"58","name":"Transil Technologies Private Limited","contact":"9945552003","remark":"No response, voice mail dropped","status":"No Response","type":"physical"},{"sl":"59","name":"Calibrex Innovations LLP (was Resolve Tech)","contact":"7676100951","remark":"New name: Calibrex Innovations LLP, will submit by EOD","status":"Will Submit","type":"physical"},{"sl":"60","name":"Sasken Silicon Technologies Ltd","contact":"9727267215","remark":"Will call back","status":"Callback","type":"physical"}];
 
-  document.getElementById('refreshBtn').addEventListener('click', () => loadData(true));
+// ── RENDER OUTREACH TABLE ──────────────────────────────
+function statusPill(s){
+  const m = {'Will Submit':'s-will','No Response':'s-no','Busy':'s-busy','Callback':'s-cb','Not Reachable':'s-nr','Closed':'s-closed','Inactive':'s-closed','No Remark':'s-nr','Other':'s-other'};
+  return `<span class="status-pill ${m[s]||'s-other'}">${s}</span>`;
+}
+function renderOutreach(data){
+  document.getElementById('outreachBody').innerHTML = data.map((r,i)=>
+    `<tr>
+      <td>${r.sl}</td>
+      <td class="td-name" title="${r.name}">${r.name}</td>
+      <td class="td-code" style="font-size:11px;font-family:'JetBrains Mono',monospace;">${r.contact}</td>
+      <td><span class="type-pill">${r.type}</span></td>
+      <td>${statusPill(r.status)}</td>
+      <td style="font-size:11px;color:var(--muted);max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${r.remark}">${r.remark||'—'}</td>
+    </tr>`
+  ).join('');
+  document.getElementById('outCount').textContent = `${data.length} startups`;
+}
+renderOutreach(OUTREACH);
 
-  loadData(false);
+function filterOutreach(){
+  const q  = document.getElementById('outSearch').value.toLowerCase();
+  const sf = document.getElementById('outFilter').value;
+  const tf = document.getElementById('typeFilter').value;
+  const filtered = OUTREACH.filter(r=>{
+    const matchQ  = !q || r.name.toLowerCase().includes(q) || r.remark.toLowerCase().includes(q);
+    const matchS  = !sf || r.status === sf;
+    const matchT  = !tf || r.type === tf;
+    return matchQ && matchS && matchT;
+  });
+  renderOutreach(filtered);
+}
 
-  async function loadData(force) {
-    const loading = document.getElementById('loadingState');
-    const dash = document.getElementById('dashboard');
-    const err = document.getElementById('errorState');
-    const btn = document.getElementById('refreshBtn');
+// ── RENDER STARTUP ROSTER ──────────────────────────────
+function stagePill(s){
+  const m = {'Builder':'p-builder','Scaler':'p-scaler','Explorer':'p-explorer'};
+  return `<span class="pill ${m[s]||'p-builder'}">${s}</span>`;
+}
+function domainPill(d){
+  const m = {'Product':'p-product','Hybrid':'p-hybrid','Service':'p-service'};
+  return `<span class="pill ${m[d]||'p-product'}">${d}</span>`;
+}
+function trlCell(s,n,d){
+  const cls = d>0?'trl-up':d<0?'trl-down':'trl-same';
+  const arrow = d>0?'↑':d<0?'↓':'→';
+  return `<span class="trl-prog ${cls}">${s}${arrow}${n} <span style="font-size:9px">(${d>0?'+':''}${d})</span></span>`;
+}
+function confCell(c){
+  if(c==='High') return `<span class="conf-high">● High</span>`;
+  if(c==='Low')  return `<span class="conf-low">● Low</span>`;
+  return `<span class="conf-med">● Med</span>`;
+}
+function renderRoster(data){
+  document.getElementById('rosterBody').innerHTML = data.map((r,i)=>
+    `<tr data-stage="${r.stage}" data-trl="${r.trl_delta>0?'up':r.trl_delta<0?'down':'same'}">
+      <td>${i+1}</td>
+      <td class="td-name" title="${r.name}">${r.name}</td>
+      <td class="td-founder" title="${r.founder}">${r.founder}</td>
+      <td>${stagePill(r.stage)}</td>
+      <td>${domainPill(r.domain)}</td>
+      <td>${trlCell(r.trl_start,r.trl_now,r.trl_delta)}</td>
+      <td>
+        <span class="ms-bar"><span class="ms-fill" style="width:${r.milestones}%"></span></span>
+        <span style="font-size:11px;color:var(--muted);margin-left:4px;">${r.milestones}%</span>
+      </td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;">${r.pilots}</td>
+      <td>${confCell(r.confidence)}</td>
+    </tr>`
+  ).join('');
+  document.getElementById('rosterCount').textContent = `${data.length} startups`;
+}
+renderRoster(STARTUPS);
 
-    err.style.display = 'none';
-    if (force) {
-      btn.classList.add('spinning');
-      btn.textContent = '';
-    }
+function filterRoster(){
+  const q  = document.getElementById('rosterSearch').value.toLowerCase();
+  const sf = document.getElementById('stageFilter').value;
+  const tf = document.getElementById('trlFilter').value;
+  const filtered = STARTUPS.filter(r=>{
+    const matchQ = !q || r.name.toLowerCase().includes(q) || r.founder.toLowerCase().includes(q);
+    const matchS = !sf || r.stage === sf;
+    const matchT = !tf || (tf==='up'&&r.trl_delta>0)||(tf==='down'&&r.trl_delta<0)||(tf==='same'&&r.trl_delta===0);
+    return matchQ && matchS && matchT;
+  });
+  // rerender
+  document.getElementById('rosterBody').innerHTML = filtered.map((r,i)=>
+    `<tr>
+      <td>${i+1}</td>
+      <td class="td-name" title="${r.name}">${r.name}</td>
+      <td class="td-founder" title="${r.founder}">${r.founder}</td>
+      <td>${stagePill(r.stage)}</td>
+      <td>${domainPill(r.domain)}</td>
+      <td>${trlCell(r.trl_start,r.trl_now,r.trl_delta)}</td>
+      <td><span class="ms-bar"><span class="ms-fill" style="width:${r.milestones}%"></span></span><span style="font-size:11px;color:var(--muted);margin-left:4px;">${r.milestones}%</span></td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;">${r.pilots}</td>
+      <td>${confCell(r.confidence)}</td>
+    </tr>`
+  ).join('');
+  document.getElementById('rosterCount').textContent = `${filtered.length} of ${STARTUPS.length} startups`;
+}
 
-    if (!DATA) {
-      loading.style.display = 'block';
-      dash.style.display = 'none';
-    }
+// ── TABS ──────────────────────────────────────────────
+function switchTab(id){
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>{
+    const ids=['overview','progress','blockers','outreach','roster','insights'];
+    t.classList.toggle('active', ids[i]===id);
+  });
+  document.querySelectorAll('.tab-content').forEach(c=>{
+    c.classList.toggle('active', c.id==='tab-'+id);
+  });
+  setTimeout(animateBars, 200);
+}
 
-    try {
-      const url = API_URL + (API_URL.includes('?') ? '&' : '?') + (force ? 'refresh=1&' : '') + '_=' + Date.now();
-      const res = await fetch(url, { method: 'GET', cache: 'no-store' });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const json = await res.json();
-      if (json.error) throw new Error(json.error);
-      DATA = json;
-      render();
-      loading.style.display = 'none';
-      dash.style.display = 'block';
-    } catch (e) {
-      console.error(e);
-      loading.style.display = 'none';
-      err.style.display = 'block';
-      err.innerHTML = '<strong>Failed to load data.</strong> ' + e.message +
-        '<br><br>Check that <code>API_URL</code> in this file points to your deployed GAS Web App, and that the deployment access is set to <em>Anyone</em>.';
-    } finally {
-      btn.classList.remove('spinning');
-      btn.textContent = 'Refresh';
-    }
-  }
+// ── SCROLL REVEAL ──────────────────────────────────────
+const obs = new IntersectionObserver(e=>{
+  e.forEach(x=>{ if(x.isIntersecting) x.target.classList.add('vis'); });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-  // ============================================================================
-  // Render
-  // ============================================================================
-  function render() {
-    const m = DATA.meta;
-    document.getElementById('periodLabel').textContent = m.period || '2025-26';
-    document.getElementById('genTime').textContent = 'Updated ' + m.generated_at;
+// ── BAR ANIMATION ──────────────────────────────────────
+let barsAnimated = false;
+function animateBars(){
+  document.querySelectorAll('.bar-fill[data-w], .funnel-bar[data-w]').forEach(el=>{
+    el.style.width = el.getAttribute('data-w') + '%';
+  });
+}
+const barObs = new IntersectionObserver(e=>{
+  e.forEach(x=>{ if(x.isIntersecting) animateBars(); });
+},{threshold:0.2});
+document.querySelectorAll('.funnel-wrap,.charts-grid').forEach(el=>barObs.observe(el));
 
-    renderValidation();
-    renderKPIs();
-    renderFunnel();
-    renderProfileTab();
-    renderExecutionTab();
-    renderBlockersTab();
-    renderGapsTab();
-    bindTabs();
-
-    // Trigger bar fills after layout settles
-    requestAnimationFrame(() => {
-      document.querySelectorAll('.bar-fill').forEach(f => {
-        const target = f.dataset.target;
-        if (target) f.style.width = target;
-      });
-    });
-  }
-
-  function renderValidation() {
-    const m = DATA.meta;
-    const issues = [];
-    if (m.duplicates_filtered > 0) issues.push(m.duplicates_filtered + ' duplicate submissions filtered (latest kept)');
-    if (m.unmatched_responders > 0) issues.push(m.unmatched_responders + ' responses not in master list');
-    const respRate = m.invited > 0 ? ((m.unique_responders / m.invited) * 100).toFixed(1) : '—';
-    let html = '<strong>Data Quality Summary</strong> — ' + m.total_submissions + ' total submissions → ' +
-               m.unique_responders + ' unique responders' +
-               (m.invited > 0 ? ' (' + respRate + '% response rate)' : '');
-    if (issues.length) {
-      html += '<ul class="validation-list">' + issues.map(i => '<li>' + i + '</li>').join('') + '</ul>';
-    }
-    document.getElementById('validationBanner').innerHTML = html;
-  }
-
-  function renderKPIs() {
-    const m = DATA.meta;
-    const respRate = m.invited > 0 ? ((m.unique_responders / m.invited) * 100).toFixed(1) : '—';
-    const revStage = DATA.funnel.find(s => s.stage.indexOf('Revenue') !== -1);
-    const revCount = revStage ? revStage.count : 0;
-    const revConv = m.unique_responders > 0 ? ((revCount / m.unique_responders) * 100).toFixed(1) : '—';
-
-    const kpis = [
-      { label: 'Invited',             value: m.invited,              sub: 'Master list startups',      cls: '' },
-      { label: 'Responded',           value: m.unique_responders,    sub: respRate + '% response rate', cls: 'accent-blue' },
-      { label: 'Pending',             value: m.non_responders_count, sub: 'Awaiting submission',        cls: 'accent-amber' },
-      { label: 'Revenue Generating',  value: revCount,               sub: revConv + '% of responders',  cls: 'accent-green' },
-      { label: 'Duplicates Filtered', value: m.duplicates_filtered,  sub: 'Latest submission kept',     cls: 'accent-red' }
-    ];
-    const root = document.getElementById('kpiRow');
-    root.innerHTML = kpis.map(k =>
-      '<div class="kpi ' + k.cls + '">' +
-        '<div class="kpi-label">' + k.label + '</div>' +
-        '<div class="kpi-value"><span class="count-up" data-target="' + k.value + '">0</span></div>' +
-        '<div class="kpi-sub">' + k.sub + '</div>' +
-      '</div>'
-    ).join('');
-    // count-up
-    root.querySelectorAll('.count-up').forEach(el => animateCount(el, parseInt(el.dataset.target, 10) || 0, 1100));
-  }
-
-  function animateCount(el, target, duration) {
-    const start = performance.now();
-    const from = 0;
-    function tick(now) {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 3);
-      el.textContent = Math.round(from + (target - from) * eased);
-      if (t < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }
-
-  function renderFunnel() {
-    const f = DATA.funnel;
-    const top = f[0].count || 1;
-    const html = f.map((s, i) => {
-      const prev = i === 0 ? null : f[i-1].count;
-      const convPrev = prev ? ((s.count / prev) * 100).toFixed(0) + '% of prev' : 'top of funnel';
-      const convTop = i === 0 ? '' : ' · ' + ((s.count / top) * 100).toFixed(0) + '% of invited';
-      return '<div class="funnel-stage s' + (i+1) + '">' +
-        '<div>' +
-          '<div class="funnel-label">' + s.stage + '</div>' +
-          '<div class="funnel-desc">' + s.desc + '</div>' +
-        '</div>' +
-        '<div class="funnel-count">' + s.count + '</div>' +
-        '<div class="funnel-conv">' + convPrev + convTop + '</div>' +
-      '</div>';
-    }).join('');
-    document.getElementById('funnel').innerHTML = html;
-  }
-
-  function renderBars(elId, obj, opts) {
-    opts = opts || {};
-    const entries = Object.entries(obj || {});
-    if (!entries.length) {
-      document.getElementById(elId).innerHTML = '<div style="color:var(--text-muted);font-size:13px">No data</div>';
-      return;
-    }
-    const top = opts.top ? entries.slice(0, opts.top) : entries;
-    const max = Math.max.apply(null, top.map(e => e[1])) || 1;
-    const colorClass = opts.color || '';
-    document.getElementById(elId).innerHTML = top.map(([name, count]) => {
-      const pct = (count / max) * 100;
-      return '<div class="bar-item">' +
-        '<div class="bar-name" title="' + escapeAttr(name) + '">' + escape(name) + '</div>' +
-        '<div class="bar-track"><div class="bar-fill ' + colorClass + '" data-target="' + pct + '%"></div></div>' +
-        '<div class="bar-count">' + count + '</div>' +
-      '</div>';
-    }).join('');
-  }
-
-  function renderProfileTab() {
-    renderBars('domainList', DATA.domain);
-    renderBars('stageList', DATA.stage, { color: 'gold' });
-    renderConfidenceDonut();
-  }
-
-  function renderConfidenceDonut() {
-    const c = DATA.confidence || {};
-    const colors = { High: '#34d399', Medium: '#fbbf24', Low: '#f87171', Unspecified: '#64748b' };
-    const total = Object.values(c).reduce((a,b) => a+b, 0);
-    const order = ['High', 'Medium', 'Low', 'Unspecified'];
-    const items = order.filter(k => c[k]).map(k => ({ label: k, count: c[k], color: colors[k] }));
-    if (!total) {
-      document.getElementById('confidenceDonut').innerHTML = '<div style="color:var(--text-muted)">No data</div>';
-      return;
-    }
-    const r = 60, cx = 80, cy = 80, circ = 2 * Math.PI * r;
-    let offset = 0;
-    const segs = items.map(it => {
-      const frac = it.count / total;
-      const dash = circ * frac;
-      const seg = '<circle class="seg" r="' + r + '" cx="' + cx + '" cy="' + cy + '" fill="transparent" stroke="' + it.color + '" stroke-width="22" stroke-dasharray="' + dash + ' ' + (circ - dash) + '" stroke-dashoffset="' + (-offset) + '" transform="rotate(-90 ' + cx + ' ' + cy + ')"/>';
-      offset += dash;
-      return seg;
-    }).join('');
-    const svg = '<svg width="160" height="160" viewBox="0 0 160 160">' +
-      '<circle r="' + r + '" cx="' + cx + '" cy="' + cy + '" fill="transparent" stroke="rgba(255,255,255,0.06)" stroke-width="22"/>' +
-      segs +
-      '<text x="' + cx + '" y="' + (cy-2) + '" text-anchor="middle" font-size="28" font-weight="800" fill="#fff">' + total + '</text>' +
-      '<text x="' + cx + '" y="' + (cy+18) + '" text-anchor="middle" font-size="11" fill="#8a9bb8">responders</text>' +
-    '</svg>';
-    const legend = items.map(it =>
-      '<div class="donut-legend-item"><span><span class="donut-legend-swatch" style="background:' + it.color + '"></span>' + it.label + '</span><strong>' + it.count + ' (' + ((it.count/total)*100).toFixed(0) + '%)</strong></div>'
-    ).join('');
-    document.getElementById('confidenceDonut').innerHTML =
-      '<div class="donut-cell">' + svg + '</div>' +
-      '<div class="donut-legend">' + legend + '</div>';
-  }
-
-  function renderExecutionTab() {
-    const t = DATA.trl || {};
-    const total = (t.advanced || 0) + (t.stagnant || 0) + (t.regressed || 0);
-    const segs = [
-      { label: 'Advanced',  count: t.advanced  || 0, color: '#34d399' },
-      { label: 'Stagnant',  count: t.stagnant  || 0, color: '#fbbf24' },
-      { label: 'Regressed', count: t.regressed || 0, color: '#f87171' }
-    ];
-    const stack = document.getElementById('trlStack');
-    if (!total) {
-      stack.innerHTML = '<div style="color:var(--text-muted);padding:8px">No data</div>';
-      document.getElementById('trlLegend').innerHTML = '';
-    } else {
-      stack.innerHTML = segs.map(s => s.count
-        ? '<div class="trl-seg" style="background:' + s.color + ';flex:' + s.count + '">' + s.count + '</div>'
-        : ''
-      ).join('');
-      document.getElementById('trlLegend').innerHTML = segs.map(s =>
-        '<div><span class="donut-legend-swatch" style="background:' + s.color + '"></span><strong>' + s.label + '</strong> · ' + s.count + (total ? ' (' + ((s.count/total)*100).toFixed(0) + '%)' : '') + '</div>'
-      ).join('');
-    }
-    renderBars('spendList', DATA.spend);
-    renderBars('activitiesList', DATA.activities, { color: 'green' });
-  }
-
-  function renderBlockersTab() {
-    renderBars('blockersList', DATA.blockers, { color: 'red', top: 8 });
-    renderBars('constraintsList', DATA.constraints, { color: 'red', top: 8 });
-    renderBars('slowedList', DATA.slowed);
-  }
-
-  function renderGapsTab() {
-    const nr = DATA.non_responders || [];
-    document.getElementById('nonRespCount').textContent =
-      nr.length + ' startup' + (nr.length === 1 ? '' : 's') + ' from the master list have not yet submitted';
-    document.getElementById('nonRespTable').innerHTML = nr.length
-      ? nr.map((n, i) => '<tr><td>' + (i+1) + '</td><td>' + escape(n) + '</td></tr>').join('')
-      : '<tr><td colspan="2" style="text-align:center;color:var(--text-muted)">All invited startups have responded 🎉</td></tr>';
-
-    const um = DATA.unmatched || [];
-    document.getElementById('unmatchedTable').innerHTML = um.length
-      ? um.map((n, i) => '<tr><td>' + (i+1) + '</td><td>' + escape(n) + '</td><td><span class="badge badge-warn">Not in master</span></td></tr>').join('')
-      : '<tr><td colspan="3" style="text-align:center;color:var(--text-muted)">All responses matched the master list ✓</td></tr>';
-  }
-
-  function bindTabs() {
-    document.querySelectorAll('.tab').forEach(btn => {
-      btn.onclick = () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-        // re-trigger bar animation
-        requestAnimationFrame(() => {
-          document.querySelectorAll('#tab-' + btn.dataset.tab + ' .bar-fill').forEach(f => {
-            const target = f.dataset.target;
-            if (target) { f.style.width = '0'; requestAnimationFrame(() => { f.style.width = target; }); }
-          });
-        });
-      };
-    });
-  }
-
-  function escape(s) {
-    return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
-  }
-  function escapeAttr(s) { return escape(s); }
+// ── TIMESTAMP ──────────────────────────────────────────
+document.getElementById('genTime').textContent =
+  new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
 </script>
-
 </body>
 </html>
