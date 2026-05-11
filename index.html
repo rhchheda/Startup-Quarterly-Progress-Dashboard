@@ -650,217 +650,6 @@
     .tab-panel { display: block !important; }
     .tabs { display: none; }
   }
-<<<<<<< HEAD
-=======
-
-  /* ===== Outreach teaser strip ===== */
-  .outreach-strip {
-    margin-top: 20px;
-    background: linear-gradient(135deg, rgba(212,160,23,0.08) 0%, rgba(96,165,250,0.05) 100%);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 18px 22px;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 24px;
-    align-items: center;
-    animation: kpiFadeUp 0.6s 0.5s ease-out backwards;
-  }
-  .outreach-strip-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: var(--gold-light);
-    font-weight: 700;
-  }
-  .outreach-strip-label::before {
-    content: '✉';
-    font-size: 18px;
-    color: var(--gold);
-  }
-  .outreach-strip-stats {
-    display: flex;
-    gap: 28px;
-    flex-wrap: wrap;
-    align-items: baseline;
-  }
-  .outreach-strip-stat .num {
-    font-size: 22px;
-    font-weight: 800;
-    color: #fff;
-    letter-spacing: -0.5px;
-  }
-  .outreach-strip-stat .lbl {
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-left: 4px;
-  }
-  .outreach-strip-cta {
-    background: rgba(212,160,23,0.12);
-    border: 1px solid var(--border-bright);
-    color: var(--gold-light);
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .outreach-strip-cta:hover {
-    background: rgba(212,160,23,0.22);
-    transform: translateX(2px);
-  }
-  @media (max-width: 768px) {
-    .outreach-strip { grid-template-columns: 1fr; gap: 12px; }
-    .outreach-strip-stats { gap: 16px; }
-    .outreach-strip-stat .num { font-size: 18px; }
-  }
-
-  /* ===== Outreach timeline ===== */
-  .outreach-summary {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 14px;
-    margin-bottom: 24px;
-  }
-  .outreach-summary .pill {
-    background: rgba(15,31,58,0.5);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-  }
-  .outreach-summary .pill .v {
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--gold-light);
-    letter-spacing: -0.5px;
-  }
-  .outreach-summary .pill .l {
-    font-size: 11px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    margin-top: 4px;
-    font-weight: 600;
-  }
-
-  .timeline {
-    position: relative;
-    padding-left: 24px;
-  }
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 7px;
-    top: 8px;
-    bottom: 8px;
-    width: 2px;
-    background: linear-gradient(180deg, var(--gold) 0%, var(--navy-500) 100%);
-    opacity: 0.5;
-  }
-  .timeline-entry {
-    position: relative;
-    padding: 14px 18px;
-    margin-bottom: 14px;
-    background: rgba(15,31,58,0.5);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    transition: all 0.25s;
-    animation: timelineFade 0.5s ease-out backwards;
-  }
-  .timeline-entry:nth-child(1) { animation-delay: 0.05s; }
-  .timeline-entry:nth-child(2) { animation-delay: 0.1s; }
-  .timeline-entry:nth-child(3) { animation-delay: 0.15s; }
-  .timeline-entry:nth-child(4) { animation-delay: 0.2s; }
-  .timeline-entry:nth-child(5) { animation-delay: 0.25s; }
-  .timeline-entry:nth-child(6) { animation-delay: 0.3s; }
-  .timeline-entry:nth-child(7) { animation-delay: 0.35s; }
-  .timeline-entry:nth-child(8) { animation-delay: 0.4s; }
-  @keyframes timelineFade {
-    from { opacity: 0; transform: translateX(-12px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
-  .timeline-entry:hover {
-    border-color: var(--border-bright);
-    transform: translateX(4px);
-  }
-  .timeline-entry::before {
-    content: '';
-    position: absolute;
-    left: -24px;
-    top: 22px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--gold);
-    box-shadow: 0 0 0 3px var(--navy-950), 0 0 12px rgba(212,160,23,0.5);
-  }
-  .timeline-entry .te-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 6px;
-  }
-  .timeline-entry .te-type {
-    display: inline-block;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-weight: 700;
-  }
-  .te-type.t-first       { background: rgba(96,165,250,0.18); color: var(--blue);   border: 1px solid rgba(96,165,250,0.3); }
-  .te-type.t-followup    { background: rgba(167,139,250,0.18); color: var(--purple); border: 1px solid rgba(167,139,250,0.3); }
-  .te-type.t-thankyou    { background: rgba(52,211,153,0.18); color: var(--green);  border: 1px solid rgba(52,211,153,0.3); }
-  .te-type.t-apology     { background: rgba(248,113,113,0.18); color: var(--red);    border: 1px solid rgba(248,113,113,0.3); }
-  .te-type.t-call        { background: rgba(251,191,36,0.18); color: var(--amber);   border: 1px solid rgba(251,191,36,0.3); }
-  .te-type.t-other       { background: rgba(138,155,184,0.18); color: var(--text-muted); border: 1px solid rgba(138,155,184,0.3); }
-  .timeline-entry .te-date { font-size: 12px; color: var(--text-muted); }
-  .timeline-entry .te-subject {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 8px;
-  }
-  .timeline-entry .te-meta {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-  .timeline-entry .te-bar {
-    flex: 1;
-    height: 6px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 3px;
-    overflow: hidden;
-    max-width: 320px;
-  }
-  .timeline-entry .te-bar > div {
-    height: 100%;
-    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-bright) 100%);
-    width: 0;
-    transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
-    border-radius: 3px;
-  }
-  .timeline-entry .te-count {
-    font-weight: 700;
-    color: var(--gold-light);
-    font-size: 13px;
-    min-width: 50px;
-    text-align: right;
-  }
-  .timeline-entry .te-count.na { color: var(--text-dim); font-weight: 500; font-style: italic; }
->>>>>>> 5eb981a0e70395b53cb0b60f07330b5153da7b26
 </style>
 </head>
 <body>
@@ -896,14 +685,6 @@
       <div class="section-title">Conversion Funnel</div>
       <div class="section-subtitle">From invitation to revenue generation — each stage shows count and conversion vs. previous stage</div>
       <div class="funnel" id="funnel"></div>
-<<<<<<< HEAD
-=======
-      <div class="outreach-strip" id="outreachStrip" style="display:none">
-        <div class="outreach-strip-label">Outreach Effort</div>
-        <div class="outreach-strip-stats" id="outreachStripStats"></div>
-        <button class="outreach-strip-cta" id="outreachStripCta">View campaign detail →</button>
-      </div>
->>>>>>> 5eb981a0e70395b53cb0b60f07330b5153da7b26
     </div>
 
     <div class="section">
@@ -911,10 +692,6 @@
         <button class="tab active" data-tab="profile">Startup Profile</button>
         <button class="tab" data-tab="execution">Execution &amp; Progress</button>
         <button class="tab" data-tab="blockers">Blockers &amp; Constraints</button>
-<<<<<<< HEAD
-=======
-        <button class="tab" data-tab="outreach">Outreach Campaign</button>
->>>>>>> 5eb981a0e70395b53cb0b60f07330b5153da7b26
         <button class="tab" data-tab="gaps">Gaps &amp; Data Quality</button>
       </div>
 
@@ -971,17 +748,6 @@
         </div>
       </div>
 
-<<<<<<< HEAD
-=======
-      <div class="tab-panel" id="tab-outreach">
-        <div class="section-title" style="margin-bottom:6px">Outreach Campaign Effort</div>
-        <div class="section-subtitle" id="outreachIntro">Personalised emails sent through ctie@kletech.ac.in — the work behind the response rate</div>
-        <div class="outreach-summary" id="outreachSummary"></div>
-        <div class="section-title" style="margin:24px 0 16px">Campaign Timeline</div>
-        <div class="timeline" id="outreachTimeline"></div>
-      </div>
-
->>>>>>> 5eb981a0e70395b53cb0b60f07330b5153da7b26
       <div class="tab-panel" id="tab-gaps">
         <div class="section-title" style="margin-bottom:6px">Non-Responders</div>
         <div class="section-subtitle" id="nonRespCount"></div>
@@ -1019,11 +785,7 @@
   // ============================================================================
   // CONFIG — paste your GAS Web App /exec URL here after deploying Dashboard.gs
   // ============================================================================
-<<<<<<< HEAD
   const API_URL = 'PASTE_YOUR_GAS_WEB_APP_URL_HERE';
-=======
-  const API_URL = 'https://script.google.com/macros/s/AKfycbwS9tMcUqTtmtgj0i_utrBcfgboRx-bBhrQKDYiVTZUSrN2rGWClVLKvHyEk5Wjllb6/exec';
->>>>>>> 5eb981a0e70395b53cb0b60f07330b5153da7b26
 
   // ============================================================================
   // Boot
@@ -1084,17 +846,9 @@
     renderValidation();
     renderKPIs();
     renderFunnel();
-<<<<<<< HEAD
     renderProfileTab();
     renderExecutionTab();
     renderBlockersTab();
-=======
-    renderOutreachStrip();
-    renderProfileTab();
-    renderExecutionTab();
-    renderBlockersTab();
-    renderOutreachTab();
->>>>>>> 5eb981a0e70395b53cb0b60f07330b5153da7b26
     renderGapsTab();
     bindTabs();
 
@@ -1269,99 +1023,6 @@
     renderBars('slowedList', DATA.slowed);
   }
 
-<<<<<<< HEAD
-=======
-  function renderOutreachStrip() {
-    const o = DATA.outreach;
-    const strip = document.getElementById('outreachStrip');
-    if (!o || !o.summary || !o.summary.total_sent) {
-      strip.style.display = 'none';
-      return;
-    }
-    const s = o.summary;
-    const stats = [
-      { num: s.total_sent,                   lbl: 'emails sent' },
-      { num: s.campaigns,                    lbl: 'campaigns' },
-      { num: s.span_weeks || s.span_days,    lbl: s.span_weeks ? 'weeks' : 'days' },
-      { num: Object.keys(s.type_breakdown).length, lbl: 'channels' }
-    ];
-    document.getElementById('outreachStripStats').innerHTML = stats.map(x =>
-      '<div class="outreach-strip-stat"><span class="num">' + x.num + '</span><span class="lbl">' + x.lbl + '</span></div>'
-    ).join('');
-    strip.style.display = 'grid';
-    document.getElementById('outreachStripCta').onclick = () => {
-      const tabBtn = document.querySelector('.tab[data-tab="outreach"]');
-      if (tabBtn) tabBtn.click();
-      tabBtn.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    };
-  }
-
-  function renderOutreachTab() {
-    const o = DATA.outreach;
-    const summaryEl = document.getElementById('outreachSummary');
-    const timelineEl = document.getElementById('outreachTimeline');
-
-    if (!o || !o.entries || !o.entries.length) {
-      summaryEl.innerHTML = '';
-      timelineEl.innerHTML = '<div style="color:var(--text-muted);padding:8px">No outreach log entries found. Run <code>setupOutreachLog()</code> in Apps Script and populate the Outreach_Log tab.</div>';
-      return;
-    }
-
-    const s = o.summary;
-    const tiles = [
-      { v: s.total_sent,                                    l: 'Total emails sent' },
-      { v: s.campaigns,                                     l: 'Campaigns / touchpoints' },
-      { v: (s.span_weeks ? s.span_weeks + ' wk' : (s.span_days || 0) + ' d'), l: 'Active span' },
-      { v: s.first_date + ' → ' + s.last_date,              l: 'Period covered' }
-    ];
-    summaryEl.innerHTML = tiles.map(t =>
-      '<div class="pill"><div class="v">' + t.v + '</div><div class="l">' + t.l + '</div></div>'
-    ).join('');
-
-    // Find max count for proportional bars
-    const maxCount = Math.max(1, ...o.entries.map(e => e.count || 0));
-
-    timelineEl.innerHTML = o.entries.map(e => {
-      const typeClass = classifyOutreachType(e.type);
-      const barWidth = e.count ? (e.count / maxCount * 100) : 0;
-      const countLabel = e.count !== null && e.count !== undefined
-        ? '<span class="te-count">' + e.count + '</span>'
-        : '<span class="te-count na">N/A</span>';
-      return '<div class="timeline-entry">' +
-        '<div class="te-head">' +
-          '<div>' +
-            '<span class="te-type ' + typeClass + '">' + escape(e.type || 'Other') + '</span>' +
-            '<span class="te-date" style="margin-left:10px">' + escape(e.date || '') + '</span>' +
-          '</div>' +
-        '</div>' +
-        '<div class="te-subject">' + escape(e.subject) + '</div>' +
-        '<div class="te-meta">' +
-          '<div class="te-bar"><div data-target="' + barWidth + '%"></div></div>' +
-          countLabel +
-        '</div>' +
-      '</div>';
-    }).join('');
-
-    // Animate bars
-    requestAnimationFrame(() => {
-      timelineEl.querySelectorAll('.te-bar > div').forEach(d => {
-        const t = d.dataset.target;
-        if (t) d.style.width = t;
-      });
-    });
-  }
-
-  function classifyOutreachType(type) {
-    const t = String(type || '').toLowerCase();
-    if (t.indexOf('first') !== -1) return 't-first';
-    if (t.indexOf('thank') !== -1) return 't-thankyou';
-    if (t.indexOf('apolog') !== -1 || t.indexOf('correct') !== -1) return 't-apology';
-    if (t.indexOf('call') !== -1 || t.indexOf('phone') !== -1 || t.indexOf('audio') !== -1) return 't-call';
-    if (t.indexOf('follow') !== -1) return 't-followup';
-    return 't-other';
-  }
-
->>>>>>> 5eb981a0e70395b53cb0b60f07330b5153da7b26
   function renderGapsTab() {
     const nr = DATA.non_responders || [];
     document.getElementById('nonRespCount').textContent =
@@ -1401,8 +1062,4 @@
 </script>
 
 </body>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> 5eb981a0e70395b53cb0b60f07330b5153da7b26
